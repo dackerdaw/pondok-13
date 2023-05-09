@@ -1,5 +1,4 @@
 import { getSubject, getSubjects } from '@/app/api/subjects/getSubjects';
-import { SkeletonCard } from '@/ui/skeleton-card';
 import Link from 'next/link';
 
 export default async function Page({
@@ -7,9 +6,12 @@ export default async function Page({
 }: {
   params: { moduleSlug: string };
 }) {
-  const module = await getSubject({ slug: params.moduleSlug });
   const lessons = await getSubjects({ parent: params.moduleSlug })
-
+  const module = await getSubject({ slug: params.moduleSlug });
+  const unit = await getSubject({ slug: module.parent || "" });
+  const course = await getSubject({ slug: unit.parent || "" });
+  const subject = await getSubject({ slug: course.parent || "" });
+  
   return (
     <div className="space-y-4">
       <h1 className="text-xl font-medium text-gray-400/80">{module.name}</h1>
@@ -19,7 +21,7 @@ export default async function Page({
           return (
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
               <Link
-                href={`/${lesson.slug}`}
+                href={`/bidang/${subject.slug}/${course.slug}/${unit.slug}/${module.slug}/${lesson.slug}`}
                 key={lesson.name}
                 className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
               >
