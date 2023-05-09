@@ -1,10 +1,10 @@
-import { getCategories } from '@/app/api/categories/getCategories';
+import { getSubjects } from '@/app/api/subjects/getSubjects';
 import { ClickCounter } from '@/ui/click-counter';
 import { TabGroup } from '@/ui/tab-group';
 import React from 'react';
 
 export const metadata = {
-  title: 'Nested Layouts',
+  title: 'Bidang Ilmu',
 };
 
 export default async function Layout({
@@ -12,18 +12,18 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const categories = await getCategories();
+  const subjects = await getSubjects();
 
   return (
     <div className="space-y-9">
       <div className="flex justify-between">
         <TabGroup
-          path="/layouts"
+          path="/bidang"
           items={[
             {
               text: 'Home',
             },
-            ...categories.map((x) => ({
+            ...subjects.map((x) => ({
               text: x.name,
               slug: x.slug,
             })),

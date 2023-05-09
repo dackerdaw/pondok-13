@@ -20,7 +20,6 @@ export function Navbar() {
           href="/"
           // className="group flex w-full items-center gap-x-2.5"
           className="group flex items-center font-display text-2xl gap-x-2.5"
-          onClick={close}
         >
           <div className="h-7 w-7 rounded-full border border-white/30 group-hover:border-white/50">
             <NextLogo />
