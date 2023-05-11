@@ -18,7 +18,7 @@ export default async function Page({
           return (
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2" key={lesson.slug}>
               <Link
-                href={`/belajar/${params.subjectSlug}/${params.courseSlug}/${params.unitSlug}/${params.moduleSlug}/${lesson.slug}`}
+                href={`/${params.subjectSlug}/${params.courseSlug}/${params.unitSlug}/${params.moduleSlug}/${lesson.slug}`}
                 key={lesson.name}
                 className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
               >

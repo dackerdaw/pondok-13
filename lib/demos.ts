@@ -10,7 +10,7 @@ export const demos: { name: string; items: Item[] }[] = [
     items: [
       {
         name: 'Bidang',
-        slug: 'bidang',
+        slug: 'matematika',
         description: 'Cari materi berdasarkan bidang ilmu',
       },
       {
