@@ -4,9 +4,9 @@ import Link from 'next/link';
 export default async function Page({
   params,
 }: {
-  params: { moduleSlug: string };
+  params: { lessonSlug: string };
 }) {
-  const lesson = await getSubject({ slug: params.moduleSlug })
+  const lesson = await getSubject({ slug: params.lessonSlug })
   
   return (
     <div className="space-y-4">
