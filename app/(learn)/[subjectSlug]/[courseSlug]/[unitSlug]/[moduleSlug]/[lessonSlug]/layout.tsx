@@ -4,6 +4,7 @@ import { ClickCounter } from '@/ui/click-counter';
 import { TabGroup } from '@/ui/tab-group';
 import Link from 'next/link';
 import React from 'react';
+import LessonNavigator from './_components/lesson-navigator';
 
 export const metadata = {
   title: 'Bidang Ilmu',
@@ -44,38 +45,10 @@ export default async function Layout({
 
                 <div className="space-y-8">
                   <h3 className="text-xl font-medium text-gray-300">{course.name}</h3>
-                  <h4 className="text-base font-medium text-gray-300">{unit.name}</h4>
+                  
+                  <LessonNavigator />
 
-                  <div className="space-y-10 text-white">
-
-                    <div className="space-y-5">
-
-                      <div className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-                        {module.name}
-                      </div>
-                      {lessons.map((lesson) => {
-                        return (
-                          <div className="grid grid-cols-1 gap-5" key={lesson.slug}>
-                            <Link
-                              href={`/${params.subjectSlug}/${params.courseSlug}/${params.unitSlug}/${params.moduleSlug}/${lesson.slug}`}
-                              key={lesson.name}
-                              className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
-                            >
-                              <div className="font-medium text-gray-200 group-hover:text-gray-50">
-                                {lesson.name}
-                              </div>
-
-                              {lesson.name ? (
-                                <div className="text-sm text-gray-400 line-clamp-3 group-hover:text-gray-300">
-                                  {lesson.name}
-                                </div>
-                              ) : null}
-                            </Link>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  
                 </div>
 
               </div>
