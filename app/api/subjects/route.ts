@@ -40,15 +40,41 @@ export async function GET(request: Request) {
 const data: Subject[] = [
   { name: 'Matematika', slug: 'matematika', count: 11, parent: null },
   { name: 'Aljabar', slug: 'aljabar', count: 4, parent: 'matematika' },
+
   { name: 'Bab 1 - Latar Belakang', slug: 'bab-1-latar-belakang', count: 4, parent: 'aljabar' },
+  //modul 1
   { name: 'Modul 1 - Variabel', slug: 'modul-1-variabel', count: 4, parent: 'bab-1-latar-belakang' },
-  { name: 'Modul 2 - Konstanta', slug: 'modul-2-konstanta', count: 4, parent: 'bab-1-latar-belakang' },
-  { name: 'Modul 3 - Persamaan', slug: 'modul-3-persamaan', count: 4, parent: 'bab-1-latar-belakang' },
   { name: 'Apa itu variabel?', slug: 'apa-itu-variabel', count: 4, parent: 'modul-1-variabel' },
   { name: 'Visualisasi variabel', slug: 'visualisasi-variabel', count: 4, parent: 'modul-1-variabel' },
   { name: 'Contoh', slug: 'contoh', count: 4, parent: 'modul-1-variabel' },
+  //modul 2
+  { name: 'Modul 2 - Konstanta', slug: 'modul-2-konstanta', count: 4, parent: 'bab-1-latar-belakang' },
+  { name: 'Apa itu konstanta?', slug: 'apa-itu-konstanta', count: 4, parent: 'modul-2-konstanta' },
+  { name: 'Visualisasi konstanta', slug: 'visualisasi-konstanta', count: 4, parent: 'modul-2-konstanta' },
+  { name: 'Contoh konstanta', slug: 'contoh-konstanta', count: 4, parent: 'modul-2-konstanta' },
+  //modul 3
+  { name: 'Modul 3 - Persamaan', slug: 'modul-3-persamaan', count: 4, parent: 'bab-1-latar-belakang' },
+  { name: 'Apa itu persamaan?', slug: 'apa-itu-persamaan', count: 4, parent: 'modul-3-persamaan' },
+  { name: 'Visualisasi persamaan', slug: 'visualisasi-persamaan', count: 4, parent: 'modul-3-persamaan' },
+  { name: 'Contoh persamaan', slug: 'contoh-persamaan', count: 4, parent: 'modul-3-persamaan' },
   
   { name: 'Bab 2 - Latar Tengah', slug: 'bab-2-latar-tengah', count: 4, parent: 'aljabar' },
+  //modul lorem
+  { name: 'lorem', slug: 'lorem', count: 4, parent: 'bab-2-latar-tengah' },
+  { name: 'Apa itu lorem?', slug: 'apa-itu-lorem', count: 4, parent: 'lorem' },
+  { name: 'Visualisasi lorem', slug: 'visualisasi-lorem', count: 4, parent: 'lorem' },
+  { name: 'Contoh lorem', slug: 'contoh-lorem', count: 4, parent: 'lorem' },
+  //modul ipsum
+  { name: 'ipusm', slug: 'ipusm', count: 4, parent: 'bab-2-latar-tengah' },
+  { name: 'Apa itu ipusm?', slug: 'apa-itu-ipusm', count: 4, parent: 'ipusm' },
+  { name: 'Visualisasi ipusm', slug: 'visualisasi-ipusm', count: 4, parent: 'ipusm' },
+  { name: 'Contoh ipusm', slug: 'contoh-ipusm', count: 4, parent: 'ipusm' },
+  //modul dolor
+  { name: 'dolor', slug: 'dolor', count: 4, parent: 'bab-2-latar-tengah' },
+  { name: 'Apa itu dolor?', slug: 'apa-itu-dolor', count: 4, parent: 'dolor' },
+  { name: 'Visualisasi dolor', slug: 'visualisasi-dolor', count: 4, parent: 'dolor' },
+  { name: 'Contoh dolor', slug: 'contoh-dolor', count: 4, parent: 'dolor' },
+  
   { name: 'Bab 3 - Latar Depan', slug: 'bab-3-latar-depan', count: 4, parent: 'aljabar' },
 
   { name: 'Trigonometri', slug: 'trigonometri', count: 5, parent: 'matematika' },

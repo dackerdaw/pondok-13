@@ -39,7 +39,7 @@ export default async function Layout({
                 <div className="space-y-4">
                   {lessons.map((lesson) => {
                     return (
-                      <div className="grid grid-cols-1 gap-5">
+                      <div className="grid grid-cols-1 gap-5" key={lesson.slug}>
                         <Link
                           href={`/belajar/${params.subjectSlug}/${params.courseSlug}/${params.unitSlug}/${params.moduleSlug}/${lesson.slug}`}
                           key={lesson.name}

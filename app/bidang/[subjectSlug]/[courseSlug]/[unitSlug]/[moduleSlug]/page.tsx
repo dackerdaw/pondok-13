@@ -7,16 +7,16 @@ export default async function Page({
   params: { moduleSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
   const lessons = await getSubjects({ parent: params.moduleSlug });
-  const module = await getSubject({ slug: params.moduleSlug });
+  const lessonModule = await getSubject({ slug: params.moduleSlug });
   
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-medium text-gray-400/80">{module.name}</h1>
+      <h1 className="text-xl font-medium text-gray-400/80">{lessonModule.name}</h1>
 
       <div className="space-y-10 text-white">
         {lessons.map((lesson) => {
           return (
-            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2" key={lesson.slug}>
               <Link
                 href={`/belajar/${params.subjectSlug}/${params.courseSlug}/${params.unitSlug}/${params.moduleSlug}/${lesson.slug}`}
                 key={lesson.name}
