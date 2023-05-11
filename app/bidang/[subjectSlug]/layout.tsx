@@ -9,14 +9,13 @@ export default async function Layout({
   children: React.ReactNode;
   params: { subjectSlug: string };
 }) {
-  const subject = await getSubject({ slug: params.subjectSlug });
   const courses = await getSubjects({ parent: params.subjectSlug });
 
   return (
     <div className="space-y-9">
       <div className="flex justify-between">
         <TabGroup
-          path={`/bidang/${subject.slug}`}
+          path={`/bidang/${params.subjectSlug}`}
           items={[
             {
               text: 'All',

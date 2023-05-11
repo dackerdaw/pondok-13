@@ -4,13 +4,10 @@ import Link from 'next/link';
 export default async function Page({
   params,
 }: {
-  params: { moduleSlug: string };
+  params: { moduleSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const lessons = await getSubjects({ parent: params.moduleSlug })
+  const lessons = await getSubjects({ parent: params.moduleSlug });
   const module = await getSubject({ slug: params.moduleSlug });
-  const unit = await getSubject({ slug: module.parent || "" });
-  const course = await getSubject({ slug: unit.parent || "" });
-  const subject = await getSubject({ slug: course.parent || "" });
   
   return (
     <div className="space-y-4">
@@ -21,7 +18,7 @@ export default async function Page({
           return (
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
               <Link
-                href={`/belajar/${subject.slug}/${course.slug}/${unit.slug}/${module.slug}/${lesson.slug}`}
+                href={`/belajar/${params.subjectSlug}/${params.courseSlug}/${params.unitSlug}/${params.moduleSlug}/${lesson.slug}`}
                 key={lesson.name}
                 className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
               >

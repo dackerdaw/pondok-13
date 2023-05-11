@@ -7,17 +7,15 @@ export default async function Layout({
   params,
 }: {
   children: React.ReactNode;
-  params: { courseSlug: string };
+  params: { courseSlug: string, subjectSlug: string };
 }) {
-  const course = await getSubject({ slug: params.courseSlug });
-  const subject = await getSubject({ slug: course.parent || "" });
   const units = await getSubjects({ parent: params.courseSlug });
 
   return (
     <div className="space-y-9">
       <div className="flex justify-between">
         <TabGroup
-          path={`/bidang/${subject.slug}/${course.slug}`}
+          path={`/bidang/${params.subjectSlug}/${params.courseSlug}`}
           items={[
             {
               text: 'All',
