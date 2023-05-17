@@ -18,7 +18,7 @@ export default async function Layout({
   params: { moduleSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
   const lessons = await getSubjects({ parent: params.moduleSlug })
-  const module = await getSubject({ slug: params.moduleSlug })
+  const lessonModule = await getSubject({ slug: params.moduleSlug })
   const unit = await getSubject({ slug: params.unitSlug })
   const course = await getSubject({ slug: params.courseSlug })
   const subject = await getSubject({ slug: params.subjectSlug })
