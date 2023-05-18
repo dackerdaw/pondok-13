@@ -1,4 +1,6 @@
+import { getArticle } from "@/lib/firebase/dto/article";
 import { getLesson } from "@/lib/firebase/dto/lesson";
+import { getVideo } from "@/lib/firebase/dto/video";
 
 export default async function Page({
   params,
@@ -6,6 +8,18 @@ export default async function Page({
   params: { lessonSlug: string, moduleSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
   const lesson = await getLesson(params.subjectSlug, params.courseSlug, params.unitSlug, params.moduleSlug, params.lessonSlug)
+  
+  let content
+  switch (lesson.lesson_code) {
+    case 0:
+      content = await getVideo(lesson.content.id)
+      break;
+    case 1:
+      content = await getArticle(lesson.content.id)
+      break;
+    default:
+      break;
+  }
 
   return (
     <>
@@ -20,7 +34,7 @@ export default async function Page({
               <div className="space-y-10 text-white">
 
                 <div className="space-y-4">
-                  <h1 className="text-xl font-medium text-gray-400/80">{lesson.name}</h1>
+                  <h2 className="text-xl font-medium text-gray-400/80">{content?.name}</h2>
 
                   <div className="space-y-10 text-white">
                   </div>
@@ -40,7 +54,7 @@ export default async function Page({
           <div className="rounded-lg bg-black p-3.5 lg:p-6">
 
             <div className="space-y-8">
-              <h1 className="text-xl font-medium text-gray-300">Transcript</h1>
+              <h2 className="text-xl font-medium text-gray-300">Transcript</h2>
             </div>
 
           </div>

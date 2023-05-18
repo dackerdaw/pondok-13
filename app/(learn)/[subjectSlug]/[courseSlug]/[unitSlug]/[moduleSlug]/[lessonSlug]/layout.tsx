@@ -18,11 +18,7 @@ export default async function Layout({
   children: React.ReactNode;
   params: { moduleSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const lessons = await getLessons(params.subjectSlug, params.courseSlug, params.unitSlug, params.moduleSlug)
-  const lessonModule = await getModule(params.subjectSlug, params.courseSlug, params.unitSlug, params.moduleSlug)
-  const unit = await getUnit(params.subjectSlug, params.courseSlug, params.unitSlug)
   const course = await getCourse(params.subjectSlug, params.courseSlug)
-  const subject = await getSubject(params.subjectSlug)
 
   return (
 
