@@ -1,10 +1,11 @@
-import { getSubjects, getSubject } from '@/app/api/subjects/getSubjects';
 import { AddressBar } from '@/ui/address-bar';
-import { ClickCounter } from '@/ui/click-counter';
-import { TabGroup } from '@/ui/tab-group';
-import Link from 'next/link';
 import React from 'react';
 import LessonNavigator from './_components/lesson-navigator';
+import { getSubject } from '@/lib/firebase/dto/subject';
+import { getCourse } from '@/lib/firebase/dto/course';
+import { getUnit } from '@/lib/firebase/dto/unit';
+import { getModule } from '@/lib/firebase/dto/module';
+import { getLessons } from '@/lib/firebase/dto/lesson';
 
 export const metadata = {
   title: 'Bidang Ilmu',
@@ -17,11 +18,11 @@ export default async function Layout({
   children: React.ReactNode;
   params: { moduleSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const lessons = await getSubjects({ parent: params.moduleSlug })
-  const lessonModule = await getSubject({ slug: params.moduleSlug })
-  const unit = await getSubject({ slug: params.unitSlug })
-  const course = await getSubject({ slug: params.courseSlug })
-  const subject = await getSubject({ slug: params.subjectSlug })
+  const lessons = await getLessons(params.subjectSlug, params.courseSlug, params.unitSlug, params.moduleSlug)
+  const lessonModule = await getModule(params.subjectSlug, params.courseSlug, params.unitSlug, params.moduleSlug)
+  const unit = await getUnit(params.subjectSlug, params.courseSlug, params.unitSlug)
+  const course = await getCourse(params.subjectSlug, params.courseSlug)
+  const subject = await getSubject(params.subjectSlug)
 
   return (
 

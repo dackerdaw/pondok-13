@@ -1,11 +1,11 @@
-import { getSubject, getSubjects } from '@/app/api/subjects/getSubjects';
+import { getLesson } from "@/lib/firebase/dto/lesson";
 
 export default async function Page({
   params,
 }: {
-  params: { lessonSlug: string };
+  params: { lessonSlug: string, moduleSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const lesson = await getSubject({ slug: params.lessonSlug })
+  const lesson = await getLesson(params.subjectSlug, params.courseSlug, params.unitSlug, params.moduleSlug, params.lessonSlug)
 
   return (
     <>
