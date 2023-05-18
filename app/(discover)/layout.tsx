@@ -5,10 +5,7 @@ import { Navbar } from '@/ui/navbar';
 import { TabGroup } from '@/ui/tab-group';
 import { Metadata } from 'next';
 import React from 'react';
-import firebase_app from '@/lib/firebase/config'
-import { getFirestore, collection, query, getDocs } from 'firebase/firestore';
-import { converter } from '@/lib/firebase/converter';
-import Subject from '@/lib/firebase/dto/subject';
+import { getSubjects } from '@/lib/firebase/dto/subject';
 
 export const metadata: Metadata = {
   title: {
@@ -18,18 +15,6 @@ export const metadata: Metadata = {
   description: 'Pelajari bidang ilmu yang diinginkan',
 }
 
-const db = getFirestore(firebase_app)
-async function getSubjects() {
-
-  const subjectsRef = collection(db, "subjects").withConverter(
-    converter<Subject>()
-  );
-  const q = query(subjectsRef);
-  
-  const subjects = await getDocs(q);
-
-  return subjects.docs
-}
 
 export default async function RootLayout({
   children,

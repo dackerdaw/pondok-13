@@ -1,4 +1,4 @@
-import { getSubjects, getSubject } from '@/app/api/subjects/getSubjects';
+import { getCourses } from '@/lib/firebase/dto/course';
 import { ClickCounter } from '@/ui/click-counter';
 import { TabGroup } from '@/ui/tab-group';
 
@@ -9,7 +9,7 @@ export default async function Layout({
   children: React.ReactNode;
   params: { subjectSlug: string };
 }) {
-  const courses = await getSubjects({ parent: params.subjectSlug });
+  const courses = await getCourses(params.subjectSlug);
 
   return (
     <div className="space-y-9">
@@ -20,10 +20,13 @@ export default async function Layout({
             {
               text: 'All',
             },
-            ...courses.map((x) => ({
-              text: x.name,
-              slug: x.slug,
-            })),
+            ...courses.map((x) => {
+              const course = x.data()
+              return {
+                text: course.name,
+                slug: x.id,
+              }
+            }),
           ]}
         />
 
