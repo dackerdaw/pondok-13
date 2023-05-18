@@ -33,6 +33,8 @@ export default async function Page({
         </div>
       </div>
 
+      { lesson.lesson_code == 0 ? 
+      (
       <div className="col-span-full lg:col-span-1">
         <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
           <div className="rounded-lg bg-black p-3.5 lg:p-6">
@@ -44,6 +46,10 @@ export default async function Page({
           </div>
         </div>
       </div>
+      )
+      :
+      null
+      }
     </>
   );
 }
