@@ -12,6 +12,18 @@ export default interface Lesson {
 
 const db = getFirestore(firebase_app)
 
+export async function fetcherGetLessons(route: string) {
+
+  const lessonsRef = collection(db, route).withConverter(
+    converter<Lesson>()
+  );
+  const q = query(lessonsRef);
+  
+  const lessons = await getDocs(q);
+  
+  return lessons.docs
+}
+
 export async function getLessons(subjectId: string, courseId: string, unitId: string, moduleId: string) {
 
   const lessonsRef = collection(db, `subjects/${subjectId}/courses/${courseId}/units/${unitId}/modules/${moduleId}/lessons`).withConverter(
@@ -20,7 +32,7 @@ export async function getLessons(subjectId: string, courseId: string, unitId: st
   const q = query(lessonsRef);
   
   const lessons = await getDocs(q);
-
+  
   return lessons.docs
 }
 
