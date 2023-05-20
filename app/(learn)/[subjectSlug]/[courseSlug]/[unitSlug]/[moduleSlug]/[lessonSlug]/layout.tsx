@@ -22,42 +22,28 @@ export default async function Layout({
 
   return (
 
-    <div className="py-32">
+    <div className="grid grid-cols-4 gap-6">
 
-      <div className="space-y-8 px-2 pt-20 lg:py-8 lg:px-8">
-
-
+      <div className="col-span-full lg:col-span-1">
         <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
-          <div className="rounded-lg bg-black">
-            <AddressBar />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-4 gap-6">
-
-          <div className="col-span-full lg:col-span-1">
-            <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
-              <div className="rounded-lg bg-black p-3.5 lg:p-6">
+          <div className="rounded-lg bg-black p-3.5 lg:p-6">
 
 
-                <div className="space-y-8">
-                  <h3 className="text-xl font-medium text-gray-300">{course.name}</h3>
-                  
-                  <LessonNavigator />
+            <div className="space-y-8">
+              <h3 className="text-xl font-medium text-gray-300">{course.name}</h3>
 
-                  
-                </div>
+              <LessonNavigator />
 
-              </div>
+
             </div>
+
           </div>
-
-          {children}
-
-
         </div>
-
       </div>
+
+      {children}
+
+
     </div>
   );
 }
