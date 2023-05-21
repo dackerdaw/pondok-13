@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import adminAuth from "../admin/delivery";
-import { SubjectList } from "./subject";
+import { CourseList } from "./courses";
 
 import 'server-only'
 
-export async function getSubjects(q?: string) {
+export async function getCourses(q?: string) {
     
   const admin = await adminAuth()
     
@@ -19,22 +19,22 @@ export async function getSubjects(q?: string) {
   };
 
   const queryParam = q ? `?${q}` : ''
-  const res = await fetch(`${process.env.POCKETBASE_URL}/api/collections/subjects/records${queryParam}`, requestOptions);
+  const res = await fetch(`${process.env.POCKETBASE_URL}/api/collections/courses/records${queryParam}`, requestOptions);
   
   if (!res.ok) {
     throw new Error('Something went wrong!');
   }
   
-  const subject = (await res.json()) as SubjectList
+  const course = (await res.json()) as CourseList
   
-  if (!subject) {
+  if (!course) {
     notFound();
   }
   
-  return subject;
+  return course;
 }
 
-export async function getSubject(id: string, q?: string) {
+export async function getCourse(id: string, q?: string) {
     
   const admin = await adminAuth()
     
@@ -49,17 +49,17 @@ export async function getSubject(id: string, q?: string) {
   };
 
   const queryParam = q ? `?${q}` : ''
-  const res = await fetch(`${process.env.POCKETBASE_URL}/api/collections/subjects/records/${id}${queryParam}`, requestOptions);
+  const res = await fetch(`${process.env.POCKETBASE_URL}/api/collections/courses/records/${id}${queryParam}`, requestOptions);
   
   if (!res.ok) {
     throw new Error('Something went wrong!');
   }
   
-  const subject = (await res.json()) as SubjectList
+  const course = (await res.json()) as CourseList
   
-  if (!subject) {
+  if (!course) {
     notFound();
   }
   
-  return subject;
+  return course;
 }

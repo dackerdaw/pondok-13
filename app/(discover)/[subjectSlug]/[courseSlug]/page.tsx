@@ -1,4 +1,4 @@
-import { getCourse } from '@/lib/firebase/dto/course';
+import { getCourses } from '@/lib/pocketbase/courses/delivery';
 import { SkeletonCard } from '@/ui/skeleton-card';
 
 export default async function Page({
@@ -6,7 +6,8 @@ export default async function Page({
 }: {
   params: { courseSlug: string, subjectSlug: string };
 }) {
-  const course = await getCourse(params.subjectSlug, params.courseSlug);
+  const courses = await getCourses(`filter=(slug='${params.courseSlug}')`)
+  const course = courses.items[0]
 
   return (
     <div className="space-y-4">
