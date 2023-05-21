@@ -1,7 +1,9 @@
 import colors from 'tailwindcss/colors';
 import { Config } from 'tailwindcss';
 
-export default {
+import withMT from "@material-tailwind/react/utils/withMT";
+
+export default withMT({
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -87,4 +89,4 @@ export default {
     },
   },
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
-} satisfies Config;
+} satisfies Config);

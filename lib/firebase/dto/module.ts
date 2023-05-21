@@ -2,11 +2,13 @@ import { getFirestore, collection, query, getDocs, doc, getDoc } from "firebase/
 import firebase_app from "../config";
 import { converter } from "../converter";
 import { notFound } from "next/navigation";
+import Lesson from "./lesson";
 
 export default interface Module {
   name: string;
   index: number;
   description: string;
+  lessons?: Lesson[];
 }
 
 const db = getFirestore(firebase_app)
@@ -38,4 +40,16 @@ export async function getModule(subjectId: string, courseId: string, unitId: str
   }
 
   return lessonModule
+}
+
+export async function fetcherGetLessonModules(route: string) {
+
+  const lessonModulesRef = collection(db, route).withConverter(
+    converter<Module>()
+  );
+  const q = query(lessonModulesRef);
+  
+  const lessonModules = await getDocs(q);
+  
+  return lessonModules.docs
 }

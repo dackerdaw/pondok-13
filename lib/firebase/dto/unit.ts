@@ -2,11 +2,13 @@ import { getFirestore, collection, query, getDocs, doc, getDoc } from "firebase/
 import firebase_app from "../config";
 import { converter } from "../converter";
 import { notFound } from "next/navigation";
+import Module from "./module";
 
 export default interface Unit {
   name: string;
   index: number;
   description: string;
+  modules?: Module[];
 }
 
 const db = getFirestore(firebase_app)

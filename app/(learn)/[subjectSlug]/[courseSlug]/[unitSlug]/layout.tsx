@@ -1,11 +1,9 @@
-import { AddressBar } from '@/ui/address-bar';
 import React from 'react';
 import LessonNavigator from './_components/lesson-navigator';
-import { getSubject } from '@/lib/firebase/dto/subject';
 import { getCourse } from '@/lib/firebase/dto/course';
-import { getUnit } from '@/lib/firebase/dto/unit';
-import { getModule } from '@/lib/firebase/dto/module';
-import { getLessons } from '@/lib/firebase/dto/lesson';
+import { getModules } from '@/lib/firebase/dto/module';
+import Paginator from '@/ui/paginator';
+import Unit, { getUnits } from '@/lib/firebase/dto/unit';
 
 export const metadata = {
   title: 'Bidang Ilmu',
@@ -16,10 +14,12 @@ export default async function Layout({
   params,
 }: {
   children: React.ReactNode;
-  params: { moduleSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
+  params: { unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
   const course = await getCourse(params.subjectSlug, params.courseSlug)
-
+  const units = await getUnits(params.subjectSlug, params.courseSlug)
+  const lessonModules = await getModules(params.subjectSlug, params.courseSlug, params.unitSlug)
+  
   return (
 
     <div className="grid grid-cols-4 gap-6">
@@ -32,6 +32,10 @@ export default async function Layout({
             <div className="space-y-8">
               <h3 className="text-xl font-medium text-gray-300">{course.name}</h3>
 
+              <Paginator
+              currentModule={0}
+              max={lessonModules.length-1}
+              />
               <LessonNavigator />
 
 
