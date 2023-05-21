@@ -1,4 +1,4 @@
-import { getUnit } from '@/lib/firebase/dto/unit';
+import { getUnits } from '@/lib/pocketbase/units/delivery';
 import { SkeletonCard } from '@/ui/skeleton-card';
 
 export default async function Page({
@@ -6,7 +6,8 @@ export default async function Page({
 }: {
   params: { unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const unit = await getUnit(params.subjectSlug, params.courseSlug, params.unitSlug)
+  const units = await getUnits(`filter=(slug='${params.unitSlug}')`)
+  const unit = units.items[0]
 
   return (
     <div className="space-y-4">
