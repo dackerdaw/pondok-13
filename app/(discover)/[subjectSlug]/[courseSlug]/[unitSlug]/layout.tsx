@@ -1,4 +1,5 @@
-import { getModules } from '@/lib/firebase/dto/module';
+import { getGroups } from '@/lib/pocketbase/groups/delivery';
+import { getUnits } from '@/lib/pocketbase/units/delivery';
 import { ClickCounter } from '@/ui/click-counter';
 import { TabGroup } from '@/ui/tab-group';
 
@@ -9,7 +10,10 @@ export default async function Layout({
   children: React.ReactNode;
   params: { unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const modules = await getModules(params.subjectSlug, params.courseSlug, params.unitSlug)
+
+  const units = await getUnits(`filter=(slug='${params.unitSlug}')`)
+  const unit = units.items[0]
+  const groups = await getGroups(`filter=(unit_id='${unit.id}')`)
 
   return (
     <div className="space-y-9">
@@ -20,11 +24,10 @@ export default async function Layout({
             {
               text: 'All',
             },
-            ...modules.map((x) => {
-              const course = x.data()
+            ...groups.items.map((x) => {
               return {
-                text: course.name,
-                slug: x.id,
+                text: x.name,
+                slug: x.slug,
               }
             }),
           ]}
