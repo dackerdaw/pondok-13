@@ -1,3 +1,4 @@
+import { getSubjects } from '@/lib/pocketbase/subjects/delivery';
 import '@/styles/globals.css';
 import { AddressBar } from '@/ui/address-bar';
 import { ClickCounter } from '@/ui/click-counter';
@@ -5,7 +6,6 @@ import { Navbar } from '@/ui/navbar';
 import { TabGroup } from '@/ui/tab-group';
 import { Metadata } from 'next';
 import React from 'react';
-import { getSubjects } from '@/lib/firebase/dto/subject';
 
 export const metadata: Metadata = {
   title: {
@@ -43,12 +43,11 @@ export default async function RootLayout({
                     <TabGroup
                       path=""
                       items={[
-                        ...subjects.map((x) => 
+                        ...subjects.items.map((x) => 
                         {
-                          const subject = x.data()
                           return {
-                            text: subject.name,
-                            slug: x.id,
+                            text: x.name,
+                            slug: x.slug,
                           }
                         }),
                       ]}

@@ -1,4 +1,4 @@
-import { getSubject } from '@/lib/firebase/dto/subject';
+import { getSubjects } from '@/lib/pocketbase/subjects/delivery';
 import { SkeletonCard } from '@/ui/skeleton-card';
 
 
@@ -7,7 +7,8 @@ export default async function Page({
 }: {
   params: { subjectSlug: string };
 }) {
-  const subject = await getSubject(params.subjectSlug);
+  const subjects = await getSubjects(`filter=(slug='${params.subjectSlug}')`)
+  const subject = subjects.items[0]
 
   return (
     <div className="space-y-4">

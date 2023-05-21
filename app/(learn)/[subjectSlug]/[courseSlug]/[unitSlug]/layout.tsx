@@ -3,7 +3,7 @@ import LessonNavigator from './_components/lesson-navigator';
 import { getCourse } from '@/lib/firebase/dto/course';
 import { getModules } from '@/lib/firebase/dto/module';
 import Paginator from '@/ui/paginator';
-import Unit, { getUnits } from '@/lib/firebase/dto/unit';
+import { getUnits } from '@/lib/firebase/dto/unit';
 
 export const metadata = {
   title: 'Bidang Ilmu',
