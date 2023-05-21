@@ -1,26 +1,13 @@
-import { getArticle } from "@/lib/firebase/dto/article";
-import { getLesson } from "@/lib/firebase/dto/lesson";
-import { getVideo } from "@/lib/firebase/dto/video";
+import { getVideos } from "@/lib/pocketbase/videos/delivery";
 
 export default async function Page({
   params,
 }: {
-  params: { lessonSlug: string, moduleSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
+  params: { lessonSlug: string, groupSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const lesson = await getLesson(params.subjectSlug, params.courseSlug, params.unitSlug, params.moduleSlug, params.lessonSlug)
+  const videos = await getVideos(`filter=(slug='${params.lessonSlug}')`)
+  const video = videos.items[0]
   
-  let content
-  switch (lesson.lesson_code) {
-    case 0:
-      content = await getVideo(lesson.content.id)
-      break;
-    case 1:
-      content = await getArticle(lesson.content.id)
-      break;
-    default:
-      break;
-  }
-
   return (
     <>
       <div className="col-span-full lg:col-span-2 space-y-8">
@@ -34,7 +21,7 @@ export default async function Page({
               <div className="space-y-10 text-white">
 
                 <div className="space-y-4">
-                  <h2 className="text-xl font-medium text-gray-400/80">{content?.name}</h2>
+                  <h2 className="text-xl font-medium text-gray-400/80">{video.name}</h2>
 
                   <div className="space-y-10 text-white">
                   </div>
@@ -47,8 +34,6 @@ export default async function Page({
         </div>
       </div>
 
-      { lesson.lesson_code == 0 ? 
-      (
       <div className="col-span-full lg:col-span-1">
         <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
           <div className="rounded-lg bg-black p-3.5 lg:p-6">
@@ -60,10 +45,6 @@ export default async function Page({
           </div>
         </div>
       </div>
-      )
-      :
-      null
-      }
     </>
   );
 }

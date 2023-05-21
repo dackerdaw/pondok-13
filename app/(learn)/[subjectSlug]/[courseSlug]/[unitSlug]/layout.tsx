@@ -1,9 +1,8 @@
 import React from 'react';
 import LessonNavigator from './_components/lesson-navigator';
-import { getCourse } from '@/lib/firebase/dto/course';
-import { getModules } from '@/lib/firebase/dto/module';
 import Paginator from '@/ui/paginator';
-import { getUnits } from '@/lib/firebase/dto/unit';
+import { getCourses } from '@/lib/pocketbase/courses/delivery';
+import { getUnits } from '@/lib/pocketbase/units/delivery';
 
 export const metadata = {
   title: 'Bidang Ilmu',
@@ -16,9 +15,9 @@ export default async function Layout({
   children: React.ReactNode;
   params: { unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const course = await getCourse(params.subjectSlug, params.courseSlug)
-  const units = await getUnits(params.subjectSlug, params.courseSlug)
-  const lessonModules = await getModules(params.subjectSlug, params.courseSlug, params.unitSlug)
+  const courses = await getCourses(`filter=(slug='${params.courseSlug}')`)
+  const course = courses.items[0]
+  const units = await getUnits(`filter=(course_id='${course.id}')`)
   
   return (
 
@@ -34,7 +33,7 @@ export default async function Layout({
 
               <Paginator
               currentModule={0}
-              max={lessonModules.length-1}
+              max={units.items.length-1}
               />
               <LessonNavigator />
 
