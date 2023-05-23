@@ -1,19 +1,23 @@
 'use client';
 
 import useSWR, { Fetcher } from 'swr'
-import Link from 'next/link';
 import React from 'react';
-import { getUnit } from '@/lib/firebase/dto/unit';
 import { usePathname } from 'next/navigation';
-import { getModule } from '@/lib/firebase/dto/module';
-import { fetcherGetLessons, getLessons } from '@/lib/firebase/dto/lesson';
+import { getBaseUrl } from '@/lib/getBaseUrl';
 
-export default function LessonNavigator() {
+export default function LessonNavigator({
+  courseId
+}: {
+  courseId: string
+}) {
   const pathname = usePathname();
   const segments = pathname.split('/').slice(1)
-  const unit = useUnit([segments[0], segments[1], segments[2]])
-  const lessonModule = useModule([segments[0], segments[1], segments[2], segments[3]])
-  const lessons = useLessons([segments[0], segments[1], segments[2], segments[3]])
+  const units = useUnits(courseId)
+  console.log(units)
+  const unit = units?.items[0]
+  const groups = unit?.expand.child_groups
+  console.log(groups)
+  const group = groups?.[0]
 
   return (
     <>
@@ -28,11 +32,11 @@ export default function LessonNavigator() {
 
       <div className="space-y-5">
         <div className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-          {lessonModule?.description}
+          {group?.name}
         </div>
 
         <div className="grid grid-cols-1 gap-5">
-          {lessons?.map((item) => {
+          {/* {lessons?.map((item) => {
             const lessonData = item.data()
             return (
               <Link
@@ -49,37 +53,18 @@ export default function LessonNavigator() {
                 </div>
               </Link>
             );
-          })}
+          })} */}
         </div>
       </div>
     </>
   );
 }
 
-function useUnit(urlSegments: string[]) {
+function useUnits(courseId?: string) {
   const { data } = useSWR(
-    urlSegments,
-    ([subejctId, courseId, unitId]) => getUnit(subejctId, courseId, unitId),
+    courseId,
+    (courseId) => fetch(`${getBaseUrl()}/api/units${courseId ? `?course_id=${courseId}` : ''}`).then(res => res.json()),
   );
 
   return data
-}
-
-function useModule(urlSegments: string[]) {
-  let { data: lessonModule } = useSWR(
-    urlSegments,
-    ([subejctId, courseId, unitId, lessonModuleId]) => getModule(subejctId, courseId, unitId, lessonModuleId),
-  );
-  
-
-  return lessonModule
-}
-
-function useLessons(urlSegments: string[]) {
-  let { data: lessons } = useSWR(
-    `subjects/${urlSegments[0]}/courses/${urlSegments[1]}/units/${urlSegments[2]}/modules/${urlSegments[3]}/lessons`,
-    (route: string) => fetcherGetLessons(route),
-  );
-
-  return lessons
 }

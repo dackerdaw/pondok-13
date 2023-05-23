@@ -1,4 +1,4 @@
-import { getVideos } from "@/lib/pocketbase/videos/delivery";
+import { getVideos } from "@/app/api/videos/delivery";
 
 export default async function Page({
   params,

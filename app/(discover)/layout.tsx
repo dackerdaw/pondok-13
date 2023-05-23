@@ -1,4 +1,4 @@
-import { getSubjects } from '@/lib/pocketbase/subjects/delivery';
+import { getSubjects } from '@/app/api/subjects/delivery';
 import '@/styles/globals.css';
 import { AddressBar } from '@/ui/address-bar';
 import { ClickCounter } from '@/ui/click-counter';

@@ -1,4 +1,4 @@
-import { getCourses } from '@/lib/pocketbase/courses/delivery';
+import { getCourses } from '@/app/api/courses/delivery';
 import { SkeletonCard } from '@/ui/skeleton-card';
 
 export default async function Page({

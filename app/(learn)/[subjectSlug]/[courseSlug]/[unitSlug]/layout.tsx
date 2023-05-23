@@ -1,8 +1,8 @@
 import React from 'react';
 import LessonNavigator from './_components/lesson-navigator';
 import Paginator from '@/ui/paginator';
-import { getCourses } from '@/lib/pocketbase/courses/delivery';
-import { getUnits } from '@/lib/pocketbase/units/delivery';
+import { getCourses } from '@/app/api/courses/delivery';
+import { getUnits } from '@/app/api/units/delivery';
 
 export const metadata = {
   title: 'Bidang Ilmu',
@@ -35,7 +35,7 @@ export default async function Layout({
               currentModule={0}
               max={units.items.length-1}
               />
-              <LessonNavigator />
+              <LessonNavigator courseId={course.id}/>
 
 
             </div>

@@ -1,5 +1,5 @@
-import { getGroups } from '@/lib/pocketbase/groups/delivery';
-import { getUnits } from '@/lib/pocketbase/units/delivery';
+import { getGroups } from '@/app/api/groups/delivery';
+import { getUnits } from '@/app/api/units/delivery';
 import { ClickCounter } from '@/ui/click-counter';
 import { TabGroup } from '@/ui/tab-group';
 

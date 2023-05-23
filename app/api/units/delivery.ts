@@ -22,6 +22,7 @@ export async function getUnits(q?: string) {
   const res = await fetch(`${process.env.POCKETBASE_URL}/api/collections/units/records${queryParam}`, requestOptions);
   
   if (!res.ok) {
+    console.log(res)
     throw new Error('Something went wrong!');
   }
   

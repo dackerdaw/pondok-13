@@ -1,4 +1,4 @@
-import { getUnits } from '@/lib/pocketbase/units/delivery';
+import { getUnits } from '@/app/api/units/delivery';
 import { SkeletonCard } from '@/ui/skeleton-card';
 
 export default async function Page({

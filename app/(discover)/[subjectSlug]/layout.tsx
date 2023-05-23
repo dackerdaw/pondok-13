@@ -1,5 +1,5 @@
-import { getCourses } from '@/lib/pocketbase/courses/delivery';
-import { getSubjects } from '@/lib/pocketbase/subjects/delivery';
+import { getCourses } from '@/app/api/courses/delivery';
+import { getSubjects } from '@/app/api/subjects/delivery';
 import { ClickCounter } from '@/ui/click-counter';
 import { TabGroup } from '@/ui/tab-group';
 

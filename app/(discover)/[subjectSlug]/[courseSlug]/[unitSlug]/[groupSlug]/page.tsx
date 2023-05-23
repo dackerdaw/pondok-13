@@ -1,6 +1,6 @@
 import convertSlugToReadable from '@/lib/helper/convertSlugToReadable';
-import { getGroups } from '@/lib/pocketbase/groups/delivery';
-import { getLessons } from '@/lib/pocketbase/lessons/delivery';
+import { getGroups } from '@/app/api/groups/delivery';
+import { getLessons } from '@/app/api/lessons/delivery';
 import Link from 'next/link';
 
 export default async function Page({

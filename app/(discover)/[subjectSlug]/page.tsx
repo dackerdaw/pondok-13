@@ -1,4 +1,4 @@
-import { getSubjects } from '@/lib/pocketbase/subjects/delivery';
+import { getSubjects } from '@/app/api/subjects/delivery';
 import { SkeletonCard } from '@/ui/skeleton-card';
 
 
