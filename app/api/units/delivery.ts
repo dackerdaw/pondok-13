@@ -1,16 +1,14 @@
 import { notFound } from "next/navigation";
-import adminAuth from "../admin/delivery";
 import { UnitList } from "./units";
 
 import 'server-only'
 
 export async function getUnits(q?: string) {
     
-  const admin = await adminAuth()
-    
   let myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", admin.token);
+  const staticKey = process.env.POCKETBASE_STATIC_KEY ? process.env.POCKETBASE_STATIC_KEY : ''
+  myHeaders.append("X-Token", staticKey)
   
   const requestOptions = {
     method: 'GET',
@@ -36,11 +34,10 @@ export async function getUnits(q?: string) {
 
 export async function getUnit(id: string, q?: string) {
     
-  const admin = await adminAuth()
-    
   let myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", admin.token);
+  const staticKey = process.env.POCKETBASE_STATIC_KEY ? process.env.POCKETBASE_STATIC_KEY : ''
+  myHeaders.append("X-Token", staticKey)
   
   const requestOptions = {
     method: 'GET',

@@ -1,16 +1,15 @@
 import { notFound } from "next/navigation";
-import adminAuth from "../admin/delivery";
 import { PageList } from "./pages";
 
 import 'server-only'
 
 export async function getPages(q?: string) {
     
-  const admin = await adminAuth()
     
   let myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", admin.token);
+  const staticKey = process.env.POCKETBASE_STATIC_KEY ? process.env.POCKETBASE_STATIC_KEY : ''
+  myHeaders.append("X-Token", staticKey)
   
   const requestOptions = {
     method: 'GET',
@@ -36,11 +35,11 @@ export async function getPages(q?: string) {
 
 export async function getPage(id: string, q?: string) {
     
-  const admin = await adminAuth()
     
   let myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", admin.token);
+  const staticKey = process.env.POCKETBASE_STATIC_KEY ? process.env.POCKETBASE_STATIC_KEY : ''
+  myHeaders.append("X-Token", staticKey)
   
   const requestOptions = {
     method: 'GET',
