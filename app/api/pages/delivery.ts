@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import adminAuth from "../admin/delivery";
-import { GroupList } from "./groups";
+import { PageList } from "./pages";
 
 import 'server-only'
 
-export async function getGroups(q?: string) {
+export async function getPages(q?: string) {
     
   const admin = await adminAuth()
     
@@ -19,22 +19,22 @@ export async function getGroups(q?: string) {
   };
 
   const queryParam = q ? `?${q}` : ''
-  const res = await fetch(`${process.env.POCKETBASE_URL}/api/collections/groups/records${queryParam}`, requestOptions);
+  const res = await fetch(`${process.env.POCKETBASE_URL}/api/collections/pages/records${queryParam}`, requestOptions);
   
   if (!res.ok) {
     throw new Error('Something went wrong!');
   }
   
-  const group = (await res.json()) as GroupList
+  const page = (await res.json()) as PageList
   
-  if (!group) {
+  if (!page) {
     notFound();
   }
   
-  return group;
+  return page;
 }
 
-export async function getGroup(id: string, q?: string) {
+export async function getPage(id: string, q?: string) {
     
   const admin = await adminAuth()
     
@@ -49,17 +49,17 @@ export async function getGroup(id: string, q?: string) {
   };
 
   const queryParam = q ? `?${q}` : ''
-  const res = await fetch(`${process.env.POCKETBASE_URL}/api/collections/groups/records/${id}${queryParam}`, requestOptions);
+  const res = await fetch(`${process.env.POCKETBASE_URL}/api/collections/pages/records/${id}${queryParam}`, requestOptions);
   
   if (!res.ok) {
     throw new Error('Something went wrong!');
   }
   
-  const group = (await res.json()) as GroupList
+  const page = (await res.json()) as PageList
   
-  if (!group) {
+  if (!page) {
     notFound();
   }
   
-  return group;
+  return page;
 }

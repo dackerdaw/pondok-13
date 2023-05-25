@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
   let units: UnitList
   try {
-    units = await getUnits(`filter=(course_id='${courseId}')&expand=child_groups`)
+    units = await getUnits(`filter=(course_id='${courseId}')&expand=child_pages`)
   } catch (e) {
     return new Response(JSON.stringify(e), {
       status: 500,

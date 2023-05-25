@@ -3,7 +3,7 @@ import { getVideos } from "@/app/api/videos/delivery";
 export default async function Page({
   params,
 }: {
-  params: { lessonSlug: string, groupSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
+  params: { lessonSlug: string, pageSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
   const videos = await getVideos(`filter=(slug='${params.lessonSlug}')`)
   const video = videos.items[0]

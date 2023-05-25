@@ -1,12 +1,12 @@
-export interface GroupList {
+export interface PageList {
   page: number
   perPage: number
   totalItems: number
   totalPages: number
-  items: Group[]
+  items: Page[]
 }
 
-export interface Group {
+export interface Page {
   collectionId: string
   collectionName: string
   created: string

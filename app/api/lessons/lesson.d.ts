@@ -15,5 +15,5 @@ export interface Lesson {
   lesson_type: string
   index: number
   lesson_slug: string
-  group_id: string
+  page_id: string
 }

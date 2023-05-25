@@ -7,7 +7,7 @@ export interface UnitList {
 }
 
 export interface Unit {
-  child_groups: string[]
+  child_pages: string[]
   collectionId: string
   collectionName: string
   course_id: string
@@ -23,10 +23,10 @@ export interface Unit {
 }
 
 export interface Expand {
-  child_groups: ChildGroup[]
+  child_pages: ChildPage[]
 }
 
-export interface ChildGroup {
+export interface ChildPage {
   collectionId: string
   collectionName: string
   created: string

@@ -4,6 +4,8 @@ import useSWR, { Fetcher } from 'swr'
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { getBaseUrl } from '@/lib/getBaseUrl';
+import Link from 'next/link';
+import { Page } from '@/app/api/pages/pages';
 
 export default function LessonNavigator({
   courseId
@@ -13,47 +15,44 @@ export default function LessonNavigator({
   const pathname = usePathname();
   const segments = pathname.split('/').slice(1)
   const units = useUnits(courseId)
-  console.log(units)
-  const unit = units?.items[0]
-  const groups = unit?.expand.child_groups
-  console.log(groups)
-  const group = groups?.[0]
+  const defaultUnit = units?.items[0]
+  const pages = defaultUnit?.expand.child_pages
+  const defaultPage = pages?.[0]
 
   return (
     <>
-      <h4 className="text-base font-medium text-gray-300">{unit ? unit.name : ""}</h4>
+      <h4 className="text-base font-medium text-gray-300">{defaultUnit ? defaultUnit.name : ""}</h4>
 
       <div className="space-y-10 text-white">
 
         <div className="space-y-5">
-          {unit?.description}
+          {defaultUnit?.description}
         </div>
       </div>
 
       <div className="space-y-5">
         <div className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-          {group?.name}
+          {defaultPage?.name}
         </div>
 
         <div className="grid grid-cols-1 gap-5">
-          {/* {lessons?.map((item) => {
-            const lessonData = item.data()
+          {pages?.map((page: Page) => {
             return (
               <Link
-                href={`/${segments[0]}/${segments[1]}/${segments[2]}/${segments[3]}/${item.id}`}
-                key={item.id}
+                href={`/${segments[0]}/${segments[1]}/${segments[2]}/${segments[3]}/${page.id}`}
+                key={page.id}
                 className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
               >
                 <div className="font-medium text-gray-200 group-hover:text-gray-50">
-                  {lessonData.name}
+                  {page.name}
                 </div>
 
                 <div className="text-sm text-gray-400 line-clamp-3 group-hover:text-gray-300">
-                  {lessonData.index}
+                  {page.index}
                 </div>
               </Link>
             );
-          })} */}
+          })}
         </div>
       </div>
     </>

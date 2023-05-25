@@ -5,9 +5,9 @@ import { getVideo } from "@/lib/firebase/dto/video";
 export default async function Page({
   params,
 }: {
-  params: { lessonSlug: string, groupSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
+  params: { lessonSlug: string, pageSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const lesson = await getLesson(params.subjectSlug, params.courseSlug, params.unitSlug, params.groupSlug, params.lessonSlug)
+  const lesson = await getLesson(params.subjectSlug, params.courseSlug, params.unitSlug, params.pageSlug, params.lessonSlug)
   
   let content
   switch (lesson.lesson_code) {

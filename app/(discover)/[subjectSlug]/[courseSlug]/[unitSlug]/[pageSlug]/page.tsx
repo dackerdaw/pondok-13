@@ -1,26 +1,26 @@
 import convertSlugToReadable from '@/lib/helper/convertSlugToReadable';
-import { getGroups } from '@/app/api/groups/delivery';
+import { getPages } from '@/app/api/pages/delivery';
 import { getLessons } from '@/app/api/lessons/delivery';
 import Link from 'next/link';
 
 export default async function Page({
   params,
 }: {
-  params: { groupSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
+  params: { pageSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
 
-  const groups = await getGroups(`filter=(slug='${params.groupSlug}')`)
-  const group = groups.items[0]
+  const pages = await getPages(`filter=(slug='${params.pageSlug}')`)
+  const page = pages.items[0]
 
-  const lessons = await getLessons(`filter=(group_id='${group.id}')`)
+  const lessons = await getLessons(`filter=(page_id='${page.id}')`)
   
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-medium text-gray-400/80">{group.name}</h1>
+      <h1 className="text-xl font-medium text-gray-400/80">{page.name}</h1>
 
       <div className="space-y-4 text-sm text-gray-200">
-        <p>{group.description}</p>
-        <p>{group.index}</p>
+        <p>{page.description}</p>
+        <p>{page.index}</p>
       </div>
 
       <div className="space-y-10 text-white">
@@ -28,7 +28,7 @@ export default async function Page({
           return (
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2" key={lesson.id}>
               <Link
-                href={`/${params.subjectSlug}/${params.courseSlug}/${params.unitSlug}/${params.groupSlug}/${lesson.lesson_type}/${lesson.lesson_slug}`}
+                href={`/${params.subjectSlug}/${params.courseSlug}/${params.unitSlug}/${params.pageSlug}/${lesson.lesson_type}/${lesson.lesson_slug}`}
                 key={lesson.id}
                 className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
               >
