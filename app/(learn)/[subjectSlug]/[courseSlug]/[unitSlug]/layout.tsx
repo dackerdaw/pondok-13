@@ -31,10 +31,6 @@ export default async function Layout({
             <div className="space-y-8">
               <h3 className="text-xl font-medium text-gray-300">{course.name}</h3>
 
-              <Paginator
-              currentModule={0}
-              max={units.items.length-1}
-              />
               <LessonNavigator expandedUnits={units}/>
 
 
