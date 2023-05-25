@@ -6,19 +6,27 @@ import { usePathname } from 'next/navigation';
 import { getBaseUrl } from '@/lib/getBaseUrl';
 import Link from 'next/link';
 import { Page } from '@/app/api/pages/pages';
+import { UnitList } from '@/app/api/units/units';
 
 export default function LessonNavigator({
-  courseId
+  expandedUnits
 }: {
-  courseId: string
+  expandedUnits: UnitList
 }) {
+  console.log(expandedUnits)
   const pathname = usePathname();
   const segments = pathname.split('/').slice(1)
-  const units = useUnits(courseId)
-  const defaultUnit = units?.items[0]
-  const pages = defaultUnit?.expand.child_pages
-  const defaultPage = pages?.[0]
-
+  const unitList = expandedUnits
+  
+  console.log(unitList)
+  
+  const defaultUnit = unitList.items[0]
+  
+  const defaultPageList = defaultUnit.expand?.child_pages
+  const defaultPage = defaultPageList?.[0]
+  
+  const defaultLessonList = defaultPage?.expand?.child_lessons
+  const defaultLesson = defaultLessonList?.[0]
   return (
     <>
       <h4 className="text-base font-medium text-gray-300">{defaultUnit ? defaultUnit.name : ""}</h4>
@@ -36,7 +44,7 @@ export default function LessonNavigator({
         </div>
 
         <div className="grid grid-cols-1 gap-5">
-          {pages?.map((page: Page) => {
+          {defaultPageList?.map((page: Page) => {
             return (
               <Link
                 href={`/${segments[0]}/${segments[1]}/${segments[2]}/${segments[3]}/${page.id}`}
@@ -57,13 +65,4 @@ export default function LessonNavigator({
       </div>
     </>
   );
-}
-
-function useUnits(courseId?: string) {
-  const { data } = useSWR(
-    courseId,
-    (courseId) => fetch(`${getBaseUrl()}/api/units${courseId ? `?course_id=${courseId}` : ''}`).then(res => res.json()),
-  );
-
-  return data
 }

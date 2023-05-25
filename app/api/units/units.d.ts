@@ -1,3 +1,5 @@
+import { Page } from "../pages/pages"
+
 export interface UnitList {
   page: number
   perPage: number
@@ -13,7 +15,7 @@ export interface Unit {
   course_id: string
   created: string
   description: string
-  expand: Expand
+  expand?: Expand
   id: string
   image: string
   index: number
@@ -23,20 +25,5 @@ export interface Unit {
 }
 
 export interface Expand {
-  child_pages: ChildPage[]
-}
-
-export interface ChildPage {
-  collectionId: string
-  collectionName: string
-  created: string
-  description: string
-  id: string
-  image: string
-  index: number
-  is_quiz: boolean
-  name: string
-  slug: string
-  unit_id: string
-  updated: string
+  child_pages: Page[]
 }

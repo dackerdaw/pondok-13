@@ -7,13 +7,13 @@ export interface LessonList {
 }
 
 export interface Lesson {
-  id: string
   collectionId: string
   collectionName: string
   created: string
-  updated: string
-  lesson_type: string
+  id: string
   index: number
   lesson_slug: string
+  lesson_type: string
   page_id: string
+  updated: string
 }

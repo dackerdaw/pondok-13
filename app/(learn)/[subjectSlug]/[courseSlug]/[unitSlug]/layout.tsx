@@ -17,7 +17,7 @@ export default async function Layout({
 }) {
   const courses = await getCourses(`filter=(slug='${params.courseSlug}')`)
   const course = courses.items[0]
-  const units = await getUnits(`filter=(course_id='${course.id}')`)
+  const units = await getUnits(`filter=(course_id='${course.id}')&expand=child_pages.child_lessons`)
   
   return (
 
@@ -35,7 +35,7 @@ export default async function Layout({
               currentModule={0}
               max={units.items.length-1}
               />
-              <LessonNavigator courseId={course.id}/>
+              <LessonNavigator expandedUnits={units}/>
 
 
             </div>

@@ -1,3 +1,5 @@
+import { Lesson } from "../lessons/lesson"
+
 export interface PageList {
   page: number
   perPage: number
@@ -7,16 +9,22 @@ export interface PageList {
 }
 
 export interface Page {
+  child_lessons: string[]
   collectionId: string
   collectionName: string
   created: string
   description: string
+  expand?: Expand
   id: string
   image: string
   index: number
+  is_quiz: boolean
   name: string
   slug: string
-  updated: string
   unit_id: string
-  is_quiz: boolean
+  updated: string
+}
+
+export interface Expand {
+  child_lessons: Lesson[]
 }
