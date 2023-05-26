@@ -21,15 +21,20 @@ export default function LessonNavigator({
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
   
   const unitList = expandedUnits
-  let currentUnit = unitList.items[currentUnitIndex]
-  let UnitLength = unitList.items.length
-  console.log(UnitLength)
+  const unitListMaxIndex = unitList.items.length === 0 ? 0 : unitList.items.length-1
+  const currentUnit = unitList.items[currentUnitIndex]
 
-  let currentPageList = currentUnit.expand?.child_pages
-  let currentPage = currentPageList?.[currentPageIndex]
-  let PageLength = currentPage?.expand?.child_lessons.length ?? 0
+  const currentPageList = currentUnit.expand?.child_pages
+  const currentPageListMaxIndex = currentPageList?.length === undefined ? 0 : currentPageList.length-1
+  const currentPage = currentPageList?.[currentPageIndex]
   
-  let currentLessonList = currentPage?.expand?.child_lessons
+  // console.log(`unit length ${unitListMaxIndex}`)
+  // console.log(`page length ${currentPageListMaxIndex}`)
+
+  // console.log(`page index ${currentPageIndex}`)
+  // console.log(`unit index ${currentUnitIndex}`)
+  
+  const currentLessonList = currentPage?.expand?.child_lessons
 
   const getItemProps = (index: number) =>
   ({
@@ -39,8 +44,11 @@ export default function LessonNavigator({
   } as any);
 
   const next = () => {
-    if (currentPageIndex === PageLength-1) {
-      if (currentUnitIndex === UnitLength-1) {
+
+  // console.log(`page: ${currentPageIndex} === ${currentPageListMaxIndex} = ${currentPageIndex === currentPageListMaxIndex}`)
+  // console.log(`unit: ${currentUnitIndex} === ${unitListMaxIndex} = ${currentUnitIndex === unitListMaxIndex}`)
+    if (currentPageIndex === currentPageListMaxIndex) {
+      if (currentUnitIndex === unitListMaxIndex) {
         return
       } else {
         setCurrentUnitIndex(currentUnitIndex+1)
@@ -57,8 +65,11 @@ export default function LessonNavigator({
       if (currentUnitIndex === 0) {
         return
       } else {
+        const prevUnit = unitList.items[currentUnitIndex-1]
+        const prevUnitMaxIndex = prevUnit.child_pages.length === 0 ? 0 : prevUnit.child_pages.length-1
+
         setCurrentUnitIndex(currentUnitIndex-1)
-        setCurrentPageIndex(0)
+        setCurrentPageIndex(prevUnitMaxIndex)
         return
       }
     }
@@ -86,8 +97,8 @@ export default function LessonNavigator({
           color="blue-gray"
           className="flex items-center gap-2"
           onClick={next}
-          disabled={currentPageIndex === PageLength-1
-          && currentUnitIndex === UnitLength}
+          disabled={currentPageIndex === currentPageListMaxIndex
+          && currentUnitIndex === unitListMaxIndex}
         >
           <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
         </Button>
