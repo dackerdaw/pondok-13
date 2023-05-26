@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { Page } from '@/app/api/pages/pages';
 import { UnitList } from '@/app/api/units/units';
 import { Button, IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
@@ -90,7 +89,7 @@ export default function LessonNavigator({
           <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
         </Button>
         <div className="flex items-center gap-2">
-          <IconButton {...getItemProps(currentPageIndex)}>{currentPageIndex+1}</IconButton>
+          <span>{`Bab ${currentPageIndex+1} - ${currentPage?.name}`}</span>
         </div>
         <Button
           variant="text"
@@ -124,7 +123,7 @@ export default function LessonNavigator({
           {currentLessonList?.map((lesson: Lesson) => {
             return (
               <Link
-                href={`/${segments[0]}/${segments[1]}/${segments[2]}/${segments[3]}/${lesson.lesson_slug}`}
+                href={`/${segments[0]}/${segments[1]}/${segments[2]}/${segments[3]}/${lesson.lesson_type}/${lesson.lesson_slug}`}
                 key={lesson.id}
                 className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
               >
