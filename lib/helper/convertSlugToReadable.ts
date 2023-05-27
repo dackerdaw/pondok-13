@@ -1,11 +1,9 @@
-
-export default function convertSlugToReadable(slug: string) {
   const excludedWords = [
     'dan', 'atau', 'dengan', 'di', 'ke', 'dari', 'untuk', 'dalam', 'pada', 'oleh', 'atas', 'bawah', 'bagi', 'tentang', 'mengenai', 'kepada', 'sampai', 'hingga', 'serta', 'yang', 'jika'
   ];
-  const readable = slug.replace(/-./g, match => {
-    const word = match.substring(1);
-    return excludedWords.includes(word) ? match : match.charAt(1).toUpperCase();
+
+export function convertSlugToReadable(slug: string) {
+  return slug.replace(/-/g, " ").replace(/\b[a-z]/g, function() {
+    return arguments[0].toUpperCase();
   });
-  return readable;
 }

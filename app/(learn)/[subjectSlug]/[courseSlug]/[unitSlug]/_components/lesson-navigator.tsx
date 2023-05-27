@@ -7,6 +7,7 @@ import { UnitList } from '@/app/api/units/units';
 import { Button, IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Lesson } from '@/app/api/lessons/lesson';
+import { convertSlugToReadable } from '@/lib/helper/convertSlugToReadable';
 
 export default function LessonNavigator({
   expandedUnits
@@ -27,12 +28,6 @@ export default function LessonNavigator({
   const currentPageListMaxIndex = currentPageList?.length === undefined ? 0 : currentPageList.length-1
   const currentPage = currentPageList?.[currentPageIndex]
   
-  // console.log(`unit length ${unitListMaxIndex}`)
-  // console.log(`page length ${currentPageListMaxIndex}`)
-
-  // console.log(`page index ${currentPageIndex}`)
-  // console.log(`unit index ${currentUnitIndex}`)
-  
   const currentLessonList = currentPage?.expand?.child_lessons
 
   const getItemProps = (index: number) =>
@@ -43,9 +38,6 @@ export default function LessonNavigator({
   } as any);
 
   const next = () => {
-
-  // console.log(`page: ${currentPageIndex} === ${currentPageListMaxIndex} = ${currentPageIndex === currentPageListMaxIndex}`)
-  // console.log(`unit: ${currentUnitIndex} === ${unitListMaxIndex} = ${currentUnitIndex === unitListMaxIndex}`)
     if (currentPageIndex === currentPageListMaxIndex) {
       if (currentUnitIndex === unitListMaxIndex) {
         return
@@ -77,6 +69,8 @@ export default function LessonNavigator({
   };
   return (
     <>
+      <h4 className="text-base font-large text-gray-300">Unit {currentUnitIndex+1} - {currentUnit ? currentUnit.name : ""}</h4>
+
       <div className="flex items-center gap-4">
         <Button
           variant="text"
@@ -103,10 +97,6 @@ export default function LessonNavigator({
         </Button>
       </div>
 
-      <h4 className="text-base font-large text-gray-300">Unit: {currentUnit ? currentUnit.name : ""}</h4>
-      
-      <h4 className="text-base font-medium text-gray-300">Page: {currentPage ? currentPage.name : ""}</h4>
-
       <div className="space-y-10 text-white">
 
         <div className="space-y-5">
@@ -128,7 +118,7 @@ export default function LessonNavigator({
                 className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
               >
                 <div className="font-medium text-gray-200 group-hover:text-gray-50">
-                  {lesson.lesson_slug}
+                  {convertSlugToReadable(lesson.lesson_slug)}
                 </div>
 
                 <div className="text-sm text-gray-400 line-clamp-3 group-hover:text-gray-300">
