@@ -83,7 +83,7 @@ export default function LessonNavigator({
           <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
         </Button>
         <div className="flex items-center gap-2">
-          <span>{`Bab ${currentPageIndex+1} - ${currentPage?.name}`}</span>
+          <span>{`Bab ${currentPageIndex+1}`}</span>
         </div>
         <Button
           variant="text"
@@ -95,13 +95,6 @@ export default function LessonNavigator({
         >
           <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
         </Button>
-      </div>
-
-      <div className="space-y-10 text-white">
-
-        <div className="space-y-5">
-          {currentPage?.description}
-        </div>
       </div>
 
       <div className="space-y-5">
