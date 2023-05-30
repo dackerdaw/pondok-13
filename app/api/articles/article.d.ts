@@ -14,7 +14,8 @@ export interface Article {
   updated: string
   slug: string
   name: string
-  description: string
-  article_url: string
+  abstract: string
   extra: string
+  content: string
+  editor: string
 }

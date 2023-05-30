@@ -1,7 +1,7 @@
-import convertSlugToReadable from '@/lib/helper/convertSlugToReadable';
 import { getPages } from '@/app/api/pages/delivery';
 import { getLessons } from '@/app/api/lessons/delivery';
 import Link from 'next/link';
+import { convertSlugToReadable } from '@/lib/helper/convertSlugToReadable';
 
 export default async function Page({
   params,

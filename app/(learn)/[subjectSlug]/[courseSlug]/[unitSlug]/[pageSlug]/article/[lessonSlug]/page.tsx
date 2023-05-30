@@ -1,4 +1,9 @@
 import { getArticles } from "@/app/api/articles/delivery";
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import { Suspense } from "react";
+import 'katex/dist/katex.min.css';
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 export default async function Page({
   params,
@@ -7,6 +12,7 @@ export default async function Page({
 }) {
   const articles = await getArticles(`filter=(slug='${params.lessonSlug}')`)
   const article = articles.items[0]
+  const content = article.content
   
   return (
     <>
@@ -24,6 +30,15 @@ export default async function Page({
                   <h2 className="text-xl font-medium text-gray-400/80">{article.name}</h2>
 
                   <div className="space-y-10 text-white">
+                    <Suspense fallback={<>Loading...</>}>
+                      {/* @ts-expect-error Async Server Component */}
+                      <MDXRemote source={content} options={{
+                        mdxOptions: {
+                          remarkPlugins: [remarkMath],
+                          rehypePlugins: [rehypeKatex],
+                        }
+                      }} />
+                    </Suspense>
                   </div>
                 </div>
 
