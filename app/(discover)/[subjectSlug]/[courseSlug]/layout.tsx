@@ -1,4 +1,6 @@
-import { getSubjects, getSubject } from '@/app/api/subjects/getSubjects';
+import { getCourses } from '@/app/api/courses/delivery';
+import { getSubjects } from '@/app/api/subjects/delivery';
+import { getUnits } from '@/app/api/units/delivery';
 import { ClickCounter } from '@/ui/click-counter';
 import { TabGroup } from '@/ui/tab-group';
 
@@ -9,7 +11,9 @@ export default async function Layout({
   children: React.ReactNode;
   params: { courseSlug: string, subjectSlug: string };
 }) {
-  const units = await getSubjects({ parent: params.courseSlug });
+  const courses = await getCourses(`filter=(slug='${params.courseSlug}')`)
+  const course = courses.items[0]
+  const units = await getUnits(`filter=(course_id='${course.id}')`)
 
   return (
     <div className="space-y-9">
@@ -18,12 +22,14 @@ export default async function Layout({
           path={`/${params.subjectSlug}/${params.courseSlug}`}
           items={[
             {
-              text: 'All',
+              text: 'All'
             },
-            ...units.map((x) => ({
-              text: x.name,
-              slug: x.slug,
-            })),
+            ...units.items.map((x) => {
+              return {
+                text: x.name,
+                slug: x.slug,
+              }
+            }),
           ]}
         />
 

@@ -1,4 +1,5 @@
-import { getSubjects, getSubject } from '@/app/api/subjects/getSubjects';
+import { getCourses } from '@/app/api/courses/delivery';
+import { getSubjects } from '@/app/api/subjects/delivery';
 import { ClickCounter } from '@/ui/click-counter';
 import { TabGroup } from '@/ui/tab-group';
 
@@ -9,7 +10,9 @@ export default async function Layout({
   children: React.ReactNode;
   params: { subjectSlug: string };
 }) {
-  const courses = await getSubjects({ parent: params.subjectSlug });
+  const subjects = await getSubjects(`filter=(slug='${params.subjectSlug}')`)
+  const subject = subjects.items[0]
+  const courses = await getCourses(`filter=(subject_id='${subject.id}')`)
 
   return (
     <div className="space-y-9">
@@ -20,10 +23,12 @@ export default async function Layout({
             {
               text: 'All',
             },
-            ...courses.map((x) => ({
-              text: x.name,
-              slug: x.slug,
-            })),
+            ...courses.items.map((x) => {
+              return {
+                text: x.name,
+                slug: x.slug,
+              }
+            }),
           ]}
         />
 
