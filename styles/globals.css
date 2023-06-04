@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ArticleMDX */
+.article-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+}
+
+.article-table td, .article-table th {
+  padding: 8px;
+}
+
+.article-table tr:nth-child(even){background-color: #3a3737;}
