@@ -15,7 +15,7 @@ export interface Article {
   slug: string
   name: string
   abstract: string
-  extra: string
+  extras: string
   content: string
   editor: string
 }

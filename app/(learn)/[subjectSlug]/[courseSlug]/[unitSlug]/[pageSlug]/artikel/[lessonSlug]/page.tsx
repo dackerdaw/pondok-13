@@ -22,12 +22,12 @@ export default async function Page({
           <div className="rounded-lg bg-black p-3.5 lg:p-6">
 
             <div className="space-y-8">
-              <h1 className="text-xl font-medium text-gray-300">Belajar</h1>
+              <h1 className="text-xl font-medium text-gray-300">{article.name}</h1>
 
               <div className="space-y-10 text-white">
 
                 <div className="space-y-4">
-                  <h2 className="text-xl font-medium text-gray-400/80">{article.name}</h2>
+                  <h2 className="text-xl font-medium text-gray-400/80">{article.abstract}</h2>
 
                   <div className="space-y-10 text-white">
                     <Suspense fallback={<>Loading...</>}>
