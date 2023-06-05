@@ -17,7 +17,7 @@ export default async function Page({
   
   return (
     <>
-      <div className="col-span-full lg:col-span-2 space-y-8">
+      <div className="col-span-full lg:col-span-3 space-y-8">
 
         <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
           <div className="rounded-lg bg-black p-3.5 lg:p-6">
