@@ -1,42 +1,40 @@
-import { getArticle } from "@/lib/firebase/dto/article";
-import { getLesson } from "@/lib/firebase/dto/lesson";
-import { getVideo } from "@/lib/firebase/dto/video";
+import { getArticles } from "@/app/api/articles/delivery";
+import { Suspense } from "react";
+import 'katex/dist/katex.min.css';
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import remarkGfm from "remark-gfm";
+import dynamic from "next/dynamic"
+import MathInput from "./_components/lib/math-field";
 
 export default async function Page({
   params,
 }: {
   params: { lessonSlug: string, pageSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const lesson = await getLesson(params.subjectSlug, params.courseSlug, params.unitSlug, params.pageSlug, params.lessonSlug)
+  const articles = await getArticles(`filter=(slug='${params.lessonSlug}')`)
+  const article = articles.items[0]
+  const content = article.content
   
-  let content
-  switch (lesson.lesson_code) {
-    case 0:
-      content = await getVideo(lesson.content.id)
-      break;
-    case 1:
-      content = await getArticle(lesson.content.id)
-      break;
-    default:
-      break;
-  }
-
   return (
     <>
-      <div className="col-span-full lg:col-span-2 space-y-8">
+      <div className="col-span-full lg:col-span-3 space-y-8">
 
         <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
           <div className="rounded-lg bg-black p-3.5 lg:p-6">
 
             <div className="space-y-8">
-              <h1 className="text-xl font-medium text-gray-300">Belajar</h1>
+              <h1 className="text-xl font-medium text-gray-300">{article.name}</h1>
 
               <div className="space-y-10 text-white">
 
                 <div className="space-y-4">
-                  <h2 className="text-xl font-medium text-gray-400/80">{content?.name}</h2>
+                  <h2 className="text-xl font-medium text-gray-400/80">{article.abstract}</h2>
 
                   <div className="space-y-10 text-white">
+                    <Suspense fallback={<>Loading...</>}>
+                      <MathInput />
+                    </Suspense>
                   </div>
                 </div>
 
@@ -46,24 +44,6 @@ export default async function Page({
           </div>
         </div>
       </div>
-
-      { lesson.lesson_code == 0 ? 
-      (
-      <div className="col-span-full lg:col-span-1">
-        <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
-          <div className="rounded-lg bg-black p-3.5 lg:p-6">
-
-            <div className="space-y-8">
-              <h2 className="text-xl font-medium text-gray-300">Transcript</h2>
-            </div>
-
-          </div>
-        </div>
-      </div>
-      )
-      :
-      null
-      }
     </>
   );
 }

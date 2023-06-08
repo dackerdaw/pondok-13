@@ -27,6 +27,7 @@
     "firebase": "^9.22.0",
     "framer-motion": "^10.12.8",
     "katex": "^0.16.7",
+    "mathlive": "^0.94.6",
     "next": "13.4.1",
     "next-mdx-remote": "^4.4.1",
     "pocketbase": "^0.15.0",
