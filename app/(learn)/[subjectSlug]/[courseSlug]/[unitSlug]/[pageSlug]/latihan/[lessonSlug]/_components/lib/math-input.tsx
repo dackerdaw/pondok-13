@@ -18,12 +18,7 @@ const MathInput = (props: MathfieldProps) => {
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
-    import("mathlive");
     MathfieldElement.soundsDirectory = "/math/sounds"
-  }, []);
-
-  useEffect(() => {
-    console.log(ref.current);
     const el = ref.current;
 
     if (el) {
