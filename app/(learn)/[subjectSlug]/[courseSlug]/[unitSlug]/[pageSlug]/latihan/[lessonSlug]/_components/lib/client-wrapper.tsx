@@ -1,16 +1,31 @@
-"use client";
-
 import { useState } from "react";
 import dynamic from "next/dynamic";
-const ClientSideMathInput = dynamic(() => import("./math-input"), {
-  ssr: false
-})
+import { MDXRemote } from 'next-mdx-remote/rsc'
+import MathInput from "@/ui/math-input";
 
-export default function ClientWrapper() {
-  const [value, setValue] = useState("");
-  console.log(value);
+// const ClientSideMathInput = dynamic(() => import("@/ui/math-input"), {
+//   ssr: false
+// })
+
+const articleComponents = {
+  table: (props: any) => (
+    <table {...props} className="article-table">
+      {props.children}
+    </table>
+  ),
+}
+
+export default function ClientWrapper(props: any) {
   
   return (
-    <ClientSideMathInput value="f(x)= \frac{\placeholder[numerator][x]{}}{\placeholder[denominator]{y}}" onChange={setValue} readOnly />
+    // <>
+    //   {/* @ts-expect-error Async Server Component */}
+    //   <MDXRemote
+    //     {...props}
+    //     components={{ ...articleComponents, ...(props.components || {}) }}
+    //   />
+    // </>
+ 
+    <MathInput value="f(x)= \frac{\placeholder[numerator][x]{}}{\placeholder[denominator]{y}}" readOnly />
   );
 }
