@@ -11,6 +11,6 @@ export default function ClientWrapper() {
   console.log(value);
   
   return (
-    <ClientSideMathInput />
+    <ClientSideMathInput value="f(x)= \frac{\placeholder[numerator][x]{}}{\placeholder[denominator]{y}}" onChange={setValue} readOnly />
   );
 }
