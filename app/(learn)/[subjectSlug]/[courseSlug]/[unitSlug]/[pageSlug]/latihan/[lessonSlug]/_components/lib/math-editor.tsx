@@ -36,7 +36,7 @@ const MathEditor = (props: MathfieldProps) => {
 
       if (currentValue.current !== value) {
         currentValue.current = value;
-        props.onChange(value);
+        // props.onChange(value);
       }
     });
   }, []);

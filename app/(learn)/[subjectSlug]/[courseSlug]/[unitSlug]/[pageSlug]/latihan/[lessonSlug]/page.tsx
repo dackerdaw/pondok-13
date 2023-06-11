@@ -5,10 +5,9 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
 import dynamic from "next/dynamic"
-import MathInput from "./_components/lib/math-field";
+import MathInput from "./_components/lib/math-input";
 import CComp from "./_components/lib/client-comp";
-import Direct from "./_components/lib/direct";
-import MathEditor from "./_components/lib/dynamic-field";
+import MathEditor from "./_components/lib/math-editor";
 
 export default async function Page({
   params,
@@ -36,10 +35,8 @@ export default async function Page({
 
                   <div className="space-y-10 text-white">
                     <Suspense fallback={<>Loading...</>}>
-                      <MathInput />
+                      <CComp />
                     </Suspense>
-                    <CComp />
-                    <Direct />
                   </div>
                 </div>
 
