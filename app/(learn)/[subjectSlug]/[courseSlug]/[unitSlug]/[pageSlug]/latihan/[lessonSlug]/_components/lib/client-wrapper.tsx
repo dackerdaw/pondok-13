@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-const ClientSideMathField = dynamic(() => import("./math-editor"), {
+const ClientSideMathInput = dynamic(() => import("./math-input"), {
   ssr: false
 })
 
-export default function CComp() {
+export default function ClientWrapper() {
   const [value, setValue] = useState("");
   console.log(value);
   
   return (
-    <ClientSideMathField value="f(x)" onChange={setValue}/>
+    <ClientSideMathInput />
   );
 }

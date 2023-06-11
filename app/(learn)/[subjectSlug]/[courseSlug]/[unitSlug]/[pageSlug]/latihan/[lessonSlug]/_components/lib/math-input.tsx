@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { MathfieldElement } from "mathlive";
+import { MathfieldElement } from "mathlive";
 
 const MathInput = () => {
   const ref = useRef<MathfieldElement>(null);
@@ -9,6 +9,7 @@ const MathInput = () => {
 
   useEffect(() => {
     import("mathlive");
+    MathfieldElement.soundsDirectory = "/math/sounds"
   }, []);
 
   useEffect(() => {
@@ -27,8 +28,6 @@ const MathInput = () => {
   return (
     <div>
       <math-field
-        sounds-directory="https://unpkg.com/mathlive@0.84.0/dist/sounds/"
-        fonts-directory="https://unpkg.com/mathlive@0.84.0/dist/fonts/"
         ref={ref}
       ></math-field>
     </div>

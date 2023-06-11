@@ -1,13 +1,7 @@
 import { getArticles } from "@/app/api/articles/delivery";
 import { Suspense } from "react";
 import 'katex/dist/katex.min.css';
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import remarkGfm from "remark-gfm";
-import dynamic from "next/dynamic"
-import MathInput from "./_components/lib/math-input";
-import CComp from "./_components/lib/client-comp";
-import MathEditor from "./_components/lib/math-editor";
+import ClientWrapper from "./_components/lib/client-wrapper";
 
 export default async function Page({
   params,
@@ -35,7 +29,7 @@ export default async function Page({
 
                   <div className="space-y-10 text-white">
                     <Suspense fallback={<>Loading...</>}>
-                      <CComp />
+                      <ClientWrapper />
                     </Suspense>
                   </div>
                 </div>
