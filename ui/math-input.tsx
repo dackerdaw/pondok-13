@@ -35,8 +35,9 @@ const MathInput = (props: MathfieldProps) => {
   }, [ref]);
 
   useEffect(() => {
-    props.onChange ? props.onChange(mathJSON) : console.log(mathJSON)
-  }, [mathJSON]);
+    // props.onChange ? props.onChange(mathJSON) : console.log(mathJSON)
+    props.onChange ? props.onChange(value) : console.log(value)
+  }, [value]);
 
   return (
     <div>

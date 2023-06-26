@@ -1,7 +1,7 @@
 import { ComputeEngine } from "@cortex-js/compute-engine";
 
 export interface MathInputAnswer {
-    mathJSONInput: any;
+    latexInput: string;
     mathJSONCorrectAnswer: any;
     simplify: boolean;
     tolerance: number
@@ -10,15 +10,15 @@ export interface MathInputAnswer {
 export default function evaluateMathInput(answer: MathInputAnswer) {   
     const ce = new ComputeEngine();
     // ce.tolerance = answer.tolerance;
-    const boxedInput = ce.box(answer.mathJSONInput, { canonical: false })
+    const boxedInput = ce.parse(answer.latexInput, { canonical: false })
     if (!boxedInput.isValid) {
         throw {
             code: 400,
             message: "Invalid user input"
         };
     }
-    console.log("mathJSON input")
-    console.log(answer.mathJSONInput)
+    console.log("latex input")
+    console.log(answer.latexInput)
     console.log("boxed input")
     console.log(boxedInput)
     
@@ -42,7 +42,11 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
         }
     }
     
-    if (answer.simplify && !boxedInput.isCanonical) {
+    if (answer.simplify && boxedInput.latex != canonicalAnswer.latex) {
+        console.log("input latex")
+        console.log(boxedInput.latex)
+        console.log("answer latex")
+        console.log(canonicalAnswer.latex)
         throw {
             code: 461,
             message: "Correct but not simplified"
