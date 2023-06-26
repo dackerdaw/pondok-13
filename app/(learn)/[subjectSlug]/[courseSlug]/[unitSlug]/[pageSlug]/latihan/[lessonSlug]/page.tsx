@@ -39,8 +39,6 @@ export default async function Page({
               <div className="space-y-10 text-white">
 
                 <div className="space-y-4">
-                  <h2 className="text-xl font-medium text-gray-400/80">{practice.number_of_questions}</h2>
-
                   <div className="space-y-10 text-white">
                     <Suspense fallback={<>Loading...</>}>
                       <ClientWrapper task={task} assessmentItems={assessmentItems} />

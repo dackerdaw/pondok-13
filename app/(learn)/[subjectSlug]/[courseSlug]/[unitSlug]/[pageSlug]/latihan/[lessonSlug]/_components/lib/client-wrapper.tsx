@@ -19,9 +19,6 @@ export default function ClientWrapper({
   const questionListMaxIndex = assessmentItems.length === 0 ? 0 : assessmentItems.length - 1
   const currentQuestion = assessmentItems[currentQuestionIndex];
 
-  console.log("HERE is question")
-  console.log(currentQuestion)
-
   const getItemProps = (index: number) =>
   ({
     variant: currentQuestionIndex === index ? "filled" : "text",
@@ -50,8 +47,6 @@ export default function ClientWrapper({
 
   return (
     <>
-      <h4 className="text-base font-large text-gray-300">Question {currentQuestionIndex + 1} - {currentQuestion ? currentQuestion.id : ""}</h4>
-      
       <Latex >
         {currentQuestion.question}
       </Latex>
