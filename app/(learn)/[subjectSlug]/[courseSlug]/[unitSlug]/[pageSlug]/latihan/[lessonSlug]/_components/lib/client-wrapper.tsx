@@ -8,6 +8,7 @@ import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
 import Latex from "react-latex";
 import MathInput from "@/ui/math-input";
+import evaluateMathInput, { MathInputAnswer } from "@/lib/evaluate-answer/evaluate-latex";
 
 export default function ClientWrapper({
   task,
@@ -26,12 +27,27 @@ export default function ClientWrapper({
   const renderInputComponent = () => {
     switch (currentQuestion.answer_type) {
       case "math-input":
+        const evaluateStruct = {
+          latexInput: inputValue,
+          validAnswer: currentQuestion.answer,
+          simplify: currentQuestion.extras.simplify,
+          tolerance: currentQuestion.extras.tolerance,
+        } as MathInputAnswer
         return (
           <>
             <MathInput
               value={inputValue}
-              onChange={(value: string) => console.log(`HI my name is ${value}`)}
+              onChange={(value: string) => setInputValue(value)}
             />
+            
+            <button onClick={() => {
+              try {
+                const pass = evaluateMathInput(evaluateStruct)
+                console.log(pass)
+              } catch (error) {
+                console.log(error)
+              }
+            }}>Kirim</button>
           </>
         );
       default:

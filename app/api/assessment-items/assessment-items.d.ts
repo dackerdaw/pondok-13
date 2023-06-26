@@ -21,5 +21,5 @@ export interface Expand {
 
 export interface Extras {
   simplify: boolean
-  round: number
+  tolerance: number
 }

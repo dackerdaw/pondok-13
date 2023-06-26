@@ -9,7 +9,7 @@ export interface MathInputAnswer {
 
 export default function evaluateMathInput(answer: MathInputAnswer) {   
     const ce = new ComputeEngine();
-    ce.tolerance = answer.tolerance;
+    // ce.tolerance = answer.tolerance;
     const boxedInput = ce.parse(answer.latexInput, { canonical: false })
     if (!boxedInput.isValid) {
         throw {
