@@ -20,7 +20,19 @@ export default function ClientWrapper({
   const questionList = task.reservedItems
   const questionListMaxIndex = questionList.length === 0 ? 0 : questionList.length - 1
   const currentQuestion = questionList[currentQuestionIndex];
-  let questionItem
+  const [question, setQuestion] = useState<AssessmentItem>();
+  
+  useEffect(() => {
+    async function prepareAssessment() {
+      const question = await getAssessmentItem(questionList[currentQuestionIndex], 'expand=problem_type_parent');
+      
+      setQuestion(question);
+    }
+    prepareAssessment();
+  }, [currentQuestionIndex])
+  
+  console.log("HERE is question")
+  console.log(question)
 
   const getItemProps = (index: number) =>
   ({

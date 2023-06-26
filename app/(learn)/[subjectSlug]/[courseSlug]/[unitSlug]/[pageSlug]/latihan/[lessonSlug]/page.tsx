@@ -7,11 +7,8 @@ import { getPractices } from "@/app/api/practices/delivery";
 import dynamic from 'next/dynamic'
 import { getOrCreatePracticeTask } from "@/app/api/practices/getOrCreatePracticeTask";
 import { getAssessmentItem } from "@/app/api/assessment-items/delivery";
+import ClientWrapper from "./_components/lib/client-wrapper";
  
-const ClientWrapper = dynamic(() => import('./_components/lib/client-wrapper'), {
-  ssr: false,
-})
-
 export default async function Page({
   params,
 }: {

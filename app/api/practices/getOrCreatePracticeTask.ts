@@ -40,7 +40,6 @@ export function practiceToTask(practice: Practice) {
 function generateAssessmentQuestions(numQuestions: number, problemTypes: ProblemType[]) {
   const numProblemTypes = problemTypes.length
   let selectedQuestions = [];
-  console.log(problemTypes)
 
   // Randomly select one question from each problem type
   // with the assumption that numQuestion >= numProblemTypes
