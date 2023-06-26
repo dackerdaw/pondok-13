@@ -7,6 +7,7 @@ import { Button } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
 import Latex from "react-latex";
+import MathInput from "@/ui/math-input";
 
 export default function ClientWrapper({
   task,
@@ -18,13 +19,25 @@ export default function ClientWrapper({
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const questionListMaxIndex = assessmentItems.length === 0 ? 0 : assessmentItems.length - 1
   const currentQuestion = assessmentItems[currentQuestionIndex];
+  
+  
+  const [inputValue, setInputValue] = useState("");
 
-  const getItemProps = (index: number) =>
-  ({
-    variant: currentQuestionIndex === index ? "filled" : "text",
-    color: currentQuestionIndex === index ? "blue" : "blue-gray",
-    onClick: () => setCurrentQuestionIndex(index),
-  } as any);
+  const renderInputComponent = () => {
+    switch (currentQuestion.answer_type) {
+      case "math-input":
+        return (
+          <>
+            <MathInput
+              value={inputValue}
+              onChange={setInputValue}
+            />
+          </>
+        );
+      default:
+        return null;
+    }
+  };
 
   const next = () => {
     if (currentQuestionIndex === questionListMaxIndex) {
@@ -50,6 +63,8 @@ export default function ClientWrapper({
       <Latex >
         {currentQuestion.question}
       </Latex>
+
+      {renderInputComponent()}
 
       <div className="flex items-center gap-4">
         <Button
