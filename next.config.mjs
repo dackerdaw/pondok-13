@@ -7,6 +7,9 @@ import remarkMath from 'remark-math';
 const nextConfig = {
     reactStrictMode: true,
     pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
+    experimental: {
+      serverActions: true,
+    }
 };
  
 const withMDX = createMDX({

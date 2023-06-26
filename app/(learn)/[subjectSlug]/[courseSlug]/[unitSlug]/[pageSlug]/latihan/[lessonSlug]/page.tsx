@@ -5,6 +5,8 @@ import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
 import { getPractices } from "@/app/api/practices/delivery";
 import dynamic from 'next/dynamic'
+import { getOrCreatePracticeTask } from "@/app/api/practices/getOrCreatePracticeTask";
+import { getAssessmentItem } from "@/app/api/assessment-items/delivery";
  
 const ClientWrapper = dynamic(() => import('./_components/lib/client-wrapper'), {
   ssr: false,
@@ -17,6 +19,7 @@ export default async function Page({
 }) {
   const practices = await getPractices(`filter=(slug='${params.lessonSlug}')&expand=problem_types`)
   const practice = practices.items[0]
+  const task = getOrCreatePracticeTask(practice);
 
   
   return (
@@ -36,7 +39,7 @@ export default async function Page({
 
                   <div className="space-y-10 text-white">
                     <Suspense fallback={<>Loading...</>}>
-                      <ClientWrapper practice={practice} />
+                      <ClientWrapper task={task} getAssessmentItem={getAssessmentItem} />
                     </Suspense>
                   </div>
                 </div>

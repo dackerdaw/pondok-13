@@ -26,7 +26,7 @@ export interface Expand {
 }
 
 export interface ProblemType {
-  assesment_items: string[]
+  assessment_items: string[]
   collectionId: string
   collectionName: string
   created: string
@@ -35,18 +35,4 @@ export interface ProblemType {
   related_contents: string[]
   slug: string
   updated: string
-}
-
-export interface AssesmentItem {
-  id: string
-  collectionId: string
-  collectionName: string
-  created: string
-  updated: string
-  answer_type: string
-  answer: string
-  hints: string
-  question: string
-  extras: string
-  problem_type_parent: string
 }

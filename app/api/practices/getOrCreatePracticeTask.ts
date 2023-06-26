@@ -40,13 +40,14 @@ export function practiceToTask(practice: Practice) {
 function generateAssessmentQuestions(numQuestions: number, problemTypes: ProblemType[]) {
   const numProblemTypes = problemTypes.length
   let selectedQuestions = [];
+  console.log(problemTypes)
 
   // Randomly select one question from each problem type
   // with the assumption that numQuestion >= numProblemTypes
   for (let i = 0; i < numProblemTypes; i++) {
 
     const problemType = problemTypes[i];
-    const questions = problemType.assesment_items;
+    const questions = problemType.assessment_items;
     const randomIndex = Math.floor(Math.random() * questions.length);
 
     selectedQuestions.push(questions[randomIndex]);
@@ -56,7 +57,7 @@ function generateAssessmentQuestions(numQuestions: number, problemTypes: Problem
   while (selectedQuestions.length < numQuestions) {
     const randomProblemTypeIndex = Math.floor(Math.random() * numProblemTypes);
     const problemType = problemTypes[randomProblemTypeIndex];
-    const questions = problemType.assesment_items;
+    const questions = problemType.assessment_items;
     const randomQuestionIndex = Math.floor(Math.random() * questions.length);
     const chosenQuestion = questions[randomQuestionIndex]
 
