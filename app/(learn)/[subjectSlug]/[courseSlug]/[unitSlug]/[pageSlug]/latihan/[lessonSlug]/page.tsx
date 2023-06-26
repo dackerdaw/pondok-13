@@ -17,6 +17,13 @@ export default async function Page({
   const practices = await getPractices(`filter=(slug='${params.lessonSlug}')&expand=problem_types`)
   const practice = practices.items[0]
   const task = getOrCreatePracticeTask(practice);
+  const questionList = task.reservedItems
+  let promiseList = new Array();
+  for (let index = 0; index < questionList.length; index++) {
+    const questionId = questionList[index];
+    promiseList.push(getAssessmentItem(questionId, 'expand=problem_type_parent'))
+  }
+  const assessmentItems = await Promise.all(promiseList)
 
   
   return (
@@ -36,7 +43,7 @@ export default async function Page({
 
                   <div className="space-y-10 text-white">
                     <Suspense fallback={<>Loading...</>}>
-                      <ClientWrapper task={task} getAssessmentItem={getAssessmentItem} />
+                      <ClientWrapper task={task} assessmentItems={assessmentItems} />
                     </Suspense>
                   </div>
                 </div>
