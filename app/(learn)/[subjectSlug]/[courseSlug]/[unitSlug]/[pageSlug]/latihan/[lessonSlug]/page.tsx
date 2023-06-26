@@ -41,7 +41,7 @@ export default async function Page({
                 <div className="space-y-4">
                   <div className="space-y-10 text-white">
                     <Suspense fallback={<>Loading...</>}>
-                      <ClientWrapper task={task} assessmentItems={assessmentItems} />
+                      <ClientWrapper assessmentItems={assessmentItems} />
                     </Suspense>
                   </div>
                 </div>

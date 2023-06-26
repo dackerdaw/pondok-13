@@ -11,10 +11,8 @@ import MathInput from "@/ui/math-input";
 import evaluateMathInput, { MathInputAnswer } from "@/lib/evaluate-answer/evaluate-latex";
 
 export default function ClientWrapper({
-  task,
   assessmentItems,
 }: {
-  task: Task
   assessmentItems: AssessmentItem[]
 }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
@@ -23,7 +21,6 @@ export default function ClientWrapper({
   
   
   const [inputValue, setInputValue] = useState("");
-
   const renderInputComponent = () => {
     switch (currentQuestion.answer_type) {
       case "math-input":

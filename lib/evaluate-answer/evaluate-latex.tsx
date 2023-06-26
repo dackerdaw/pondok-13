@@ -17,6 +17,10 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
             message: "Invalid user input"
         };
     }
+    console.log("string input")
+    console.log(answer.latexInput)
+    console.log("boxed input")
+    console.log(boxedInput)
     
     let canonicalAnswer = ce.parse(answer.validAnswer);
     if (!canonicalAnswer.isValid) {
@@ -25,6 +29,10 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
             message: "Invalid answer from database"
         }
     }
+    console.log("string real answer")
+    console.log(answer.validAnswer)
+    console.log("boxed real answer")
+    console.log(canonicalAnswer)
     
     const passed = boxedInput.isEqual(canonicalAnswer)
     if (!passed) {
