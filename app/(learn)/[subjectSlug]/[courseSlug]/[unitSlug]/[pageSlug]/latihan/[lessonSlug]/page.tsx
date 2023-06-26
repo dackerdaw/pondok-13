@@ -1,10 +1,6 @@
 import { Suspense } from "react";
 import 'katex/dist/katex.min.css';
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import remarkGfm from "remark-gfm";
 import { getPractices } from "@/app/api/practices/delivery";
-import dynamic from 'next/dynamic'
 import { getOrCreatePracticeTask } from "@/app/api/practices/getOrCreatePracticeTask";
 import { getAssessmentItem } from "@/app/api/assessment-items/delivery";
 import ClientWrapper from "./_components/lib/client-wrapper";

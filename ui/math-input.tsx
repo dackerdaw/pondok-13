@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { MathfieldElement, MathfieldOptions } from "mathlive";
+import { MathfieldElement, MathfieldOptions, serializeMathJsonToLatex } from "mathlive";
 
 export type MathfieldProps = {
   options?: Partial<MathfieldOptions>;
 
-  value?: string;
   onChange?: any;
   readOnly?: boolean;
+  mathJSON?: any;
 
   className?: string;
 };
@@ -16,6 +16,7 @@ export type MathfieldProps = {
 const MathInput = (props: MathfieldProps) => {
   const ref = useRef<MathfieldElement>(null);
   const [value, setValue] = useState<string>("");
+  const [mathJSON, setMathJSON] = useState();
 
   useEffect(() => {
     MathfieldElement.soundsDirectory = "/math/sounds"
@@ -23,16 +24,19 @@ const MathInput = (props: MathfieldProps) => {
 
     if (el) {
       // el.virtualKeyboardMode = "manual";
-      el.onchange = () => setValue(el.value);
+      el.onchange = () => {
+        setValue(el.value);
+        setMathJSON(el.expression)
+      }
       el.readOnly = props.readOnly ?? false
       el.className = props.className || '';
-      el.value = props.value ?? '';
+      el.value = serializeMathJsonToLatex(props.mathJSON)
     }
   }, [ref]);
 
   useEffect(() => {
-    props.onChange ? props.onChange(value) : console.log(value)
-  }, [value]);
+    props.onChange ? props.onChange(mathJSON) : console.log(mathJSON)
+  }, [mathJSON]);
 
   return (
     <div>

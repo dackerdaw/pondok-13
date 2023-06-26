@@ -20,21 +20,21 @@ export default function ClientWrapper({
   const currentQuestion = assessmentItems[currentQuestionIndex];
   
   
-  const [inputValue, setInputValue] = useState("");
+  // const [inputValue, setInputValue] = useState("");
+  const [mathJSONInput, setMathJSONInput] = useState();
   const renderInputComponent = () => {
     switch (currentQuestion.answer_type) {
       case "math-input":
         const evaluateStruct = {
-          latexInput: inputValue,
-          validAnswer: currentQuestion.answer,
+          mathJSONInput: mathJSONInput,
+          mathJSONCorrectAnswer: currentQuestion.answer,
           simplify: currentQuestion.extras.simplify,
           tolerance: currentQuestion.extras.tolerance,
         } as MathInputAnswer
         return (
           <>
             <MathInput
-              value={inputValue}
-              onChange={(value: string) => setInputValue(value)}
+              onChange={(input: any) => setMathJSONInput(input)}
             />
             
             <button onClick={() => {

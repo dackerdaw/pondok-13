@@ -1,8 +1,8 @@
 import { ComputeEngine } from "@cortex-js/compute-engine";
 
 export interface MathInputAnswer {
-    latexInput: string;
-    validAnswer: string;
+    mathJSONInput: any;
+    mathJSONCorrectAnswer: any;
     simplify: boolean;
     tolerance: number
 }
@@ -10,28 +10,28 @@ export interface MathInputAnswer {
 export default function evaluateMathInput(answer: MathInputAnswer) {   
     const ce = new ComputeEngine();
     // ce.tolerance = answer.tolerance;
-    const boxedInput = ce.parse(answer.latexInput, { canonical: false })
+    const boxedInput = ce.box(answer.mathJSONInput, { canonical: false })
     if (!boxedInput.isValid) {
         throw {
             code: 400,
             message: "Invalid user input"
         };
     }
-    console.log("string input")
-    console.log(answer.latexInput)
+    console.log("mathJSON input")
+    console.log(answer.mathJSONInput)
     console.log("boxed input")
     console.log(boxedInput)
     
-    let canonicalAnswer = ce.parse(answer.validAnswer);
+    let canonicalAnswer = ce.box(answer.mathJSONCorrectAnswer);
     if (!canonicalAnswer.isValid) {
         throw {
             code: 400,
             message: "Invalid answer from database"
         }
     }
-    console.log("string real answer")
-    console.log(answer.validAnswer)
-    console.log("boxed real answer")
+    console.log("mathJSON correct answer")
+    console.log(answer.mathJSONCorrectAnswer)
+    console.log("boxed correct answer")
     console.log(canonicalAnswer)
     
     const passed = boxedInput.isEqual(canonicalAnswer)

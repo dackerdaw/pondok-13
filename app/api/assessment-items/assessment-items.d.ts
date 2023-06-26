@@ -1,7 +1,7 @@
 import { ProblemType } from "../practices/practice"
 
 export interface AssessmentItem {
-  answer: string
+  answer: any
   answer_type: string
   collectionId: string
   collectionName: string
