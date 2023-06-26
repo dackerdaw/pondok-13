@@ -1,17 +1,12 @@
 "use client";
 
-import MathInput from "@/ui/math-input";
 import { Task } from "@/app/api/practices/getOrCreatePracticeTask";
 
-import React, { Suspense, useEffect, useState } from 'react';
-import { MDXRemote } from 'next-mdx-remote/rsc'
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import remarkGfm from "remark-gfm";
+import React, { useState } from 'react';
 import { Button } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
-import { AssessmentArticleMDX } from "../assessment-article-mdx";
+import Latex from "react-latex-next";
 
 export default function ClientWrapper({
   task,
@@ -56,15 +51,10 @@ export default function ClientWrapper({
   return (
     <>
       <h4 className="text-base font-large text-gray-300">Question {currentQuestionIndex + 1} - {currentQuestion ? currentQuestion.id : ""}</h4>
-
-      {/* <Suspense fallback={<>Loading...</>}>
-        <AssessmentArticleMDX source={currentQuestion.question} options={{
-          mdxOptions: {
-            remarkPlugins: [remarkMath, remarkGfm],
-            rehypePlugins: [rehypeKatex],
-          }
-        }} />
-      </Suspense> */}
+      
+      <Latex >
+        {currentQuestion.question}
+      </Latex>
 
       <div className="flex items-center gap-4">
         <Button

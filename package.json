@@ -37,6 +37,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-latex": "^2.0.0",
+    "react-latex-next": "^2.2.0",
     "rehype-katex": "^6.0.3",
     "rehype-stringify": "^9.0.3",
     "remark-gfm": "^3.0.1",
