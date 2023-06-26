@@ -7,7 +7,7 @@ export type MathfieldProps = {
   options?: Partial<MathfieldOptions>;
 
   value?: string;
-  onChange?: (latex: string) => void;
+  onChange?: any;
   readOnly?: boolean;
 
   className?: string;

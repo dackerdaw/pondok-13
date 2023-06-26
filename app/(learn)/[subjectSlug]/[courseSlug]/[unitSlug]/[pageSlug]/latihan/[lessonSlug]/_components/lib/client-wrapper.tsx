@@ -30,7 +30,7 @@ export default function ClientWrapper({
           <>
             <MathInput
               value={inputValue}
-              onChange={setInputValue}
+              onChange={(value: string) => console.log(`HI my name is ${value}`)}
             />
           </>
         );
