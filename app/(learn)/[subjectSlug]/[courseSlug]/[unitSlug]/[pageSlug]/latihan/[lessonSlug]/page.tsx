@@ -3,18 +3,21 @@ import 'katex/dist/katex.min.css';
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
-import ClientWrapper from "./_components/lib/client-wrapper";
 import { getPractices } from "@/app/api/practices/delivery";
+import dynamic from 'next/dynamic'
+ 
+const ClientWrapper = dynamic(() => import('./_components/lib/client-wrapper'), {
+  ssr: false,
+})
 
 export default async function Page({
   params,
 }: {
   params: { lessonSlug: string, pageSlug: string, unitSlug: string, courseSlug: string, subjectSlug: string };
 }) {
-  const practices = await getPractices(`filter=(slug='${params.lessonSlug}')&expand=questions`)
+  const practices = await getPractices(`filter=(slug='${params.lessonSlug}')&expand=problem_types`)
   const practice = practices.items[0]
-  const questions = practice.expand?.questions
-  const firstQuestion = questions?.[0]
+
   
   return (
     <>
@@ -33,13 +36,7 @@ export default async function Page({
 
                   <div className="space-y-10 text-white">
                     <Suspense fallback={<>Loading...</>}>
-                      {/* <ClientWrapper /> */}
-                      <ClientWrapper source={firstQuestion?.question} options={{
-                        mdxOptions: {
-                          remarkPlugins: [remarkMath, remarkGfm],
-                          rehypePlugins: [rehypeKatex],
-                        }
-                      }} />
+                      <ClientWrapper practice={practice} />
                     </Suspense>
                   </div>
                 </div>
