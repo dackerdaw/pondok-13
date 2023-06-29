@@ -17,10 +17,6 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
             message: "Jawaban kamu belum valid. Pastikan jawabanmu sudah lengkap."
         };
     }
-    console.log("latex input")
-    console.log(answer.latexInput)
-    console.log("boxed input")
-    console.log(boxedInput)
     
     let canonicalAnswer = ce.box(answer.mathJSONCorrectAnswer);
     if (!canonicalAnswer.isValid) {
@@ -29,10 +25,6 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
             message: "Invalid answer from database"
         }
     }
-    console.log("mathJSON correct answer")
-    console.log(answer.mathJSONCorrectAnswer)
-    console.log("boxed correct answer")
-    console.log(canonicalAnswer)
     
     const passed = boxedInput.isEqual(canonicalAnswer)
     if (!passed) {
@@ -43,10 +35,6 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
     }
     
     if (answer.simplify && boxedInput.latex != canonicalAnswer.latex) {
-        console.log("input latex")
-        console.log(boxedInput.latex)
-        console.log("answer latex")
-        console.log(canonicalAnswer.latex)
         throw {
             code: 461,
             message: "Jawabanmu sudah benar, namun masih bisa disederhanakan."
