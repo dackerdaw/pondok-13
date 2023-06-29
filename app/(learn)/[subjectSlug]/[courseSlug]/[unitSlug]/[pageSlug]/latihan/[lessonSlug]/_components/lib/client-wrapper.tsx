@@ -1,14 +1,13 @@
 "use client";
 
-import { Task } from "@/app/api/practices/getOrCreatePracticeTask";
-
 import React, { useState } from 'react';
-import { Button } from "@material-tailwind/react";
+import { Alert, Button } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
 import Latex from "react-latex";
 import MathInput from "@/ui/math-input";
 import evaluateMathInput, { MathInputAnswer } from "@/lib/evaluate-answer/evaluate-latex";
+import { colors } from '@material-tailwind/react/types/generic';
 
 export default function ClientWrapper({
   assessmentItems,
@@ -18,8 +17,12 @@ export default function ClientWrapper({
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const questionListMaxIndex = assessmentItems.length === 0 ? 0 : assessmentItems.length - 1
   const currentQuestion = assessmentItems[currentQuestionIndex];
-  
-  
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertColor, setAlertColor] = useState<colors>();
+  const [alertContent, setAlertContent] = useState("");
+
+
   const [latexInput, setLatexInput] = useState("");
   // const [mathJSONInput, setMathJSONInput] = useState();
   const renderInputComponent = () => {
@@ -36,13 +39,17 @@ export default function ClientWrapper({
             <MathInput
               onChange={(input: string) => setLatexInput(input)}
             />
-            
+
             <button onClick={() => {
               try {
                 const pass = evaluateMathInput(evaluateStruct)
-                console.log(pass)
-              } catch (error) {
-                console.log(error)
+                setAlertColor("green");
+                setAlertContent("Jawaban kamu benar!")
+                setAlertOpen(true);
+              } catch (error: any) {
+                setAlertColor("orange")
+                setAlertContent(error.message)
+                setAlertOpen(true);
               }
             }}>Kirim</button>
           </>
@@ -79,7 +86,12 @@ export default function ClientWrapper({
 
       {renderInputComponent()}
 
+      <Alert open={alertOpen} onClose={() => setAlertOpen(false)} color={alertColor}>
+        {alertContent}
+      </Alert>
+
       <div className="flex items-center gap-4">
+
         <Button
           variant="text"
           color="blue-gray"
