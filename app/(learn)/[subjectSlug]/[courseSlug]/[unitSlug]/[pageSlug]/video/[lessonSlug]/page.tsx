@@ -32,6 +32,9 @@ export default async function Page({
                       params={playerParams}
                     />
                   </div>
+                  
+                  <h3 className="text-md font-medium text-gray-400/80">Deskripsi</h3>
+                  <p>{video.description}</p>
                 </div>
 
               </div>
