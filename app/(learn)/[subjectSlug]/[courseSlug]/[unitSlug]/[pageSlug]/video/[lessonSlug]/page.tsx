@@ -1,4 +1,5 @@
 import { getVideos } from "@/app/api/videos/delivery";
+import YoutubeClientWrapper from "./_components/youtube-client-wrapper";
 
 export default async function Page({
   params,
@@ -7,6 +8,7 @@ export default async function Page({
 }) {
   const videos = await getVideos(`filter=(slug='${params.lessonSlug}')`)
   const video = videos.items[0]
+  const playerParams = "modestbranding=1&rel=0&cc_load_policy=1"
   
   return (
     <>
@@ -24,6 +26,11 @@ export default async function Page({
                   <h2 className="text-xl font-medium text-gray-400/80">{video.name}</h2>
 
                   <div className="space-y-10 text-white">
+                    <YoutubeClientWrapper 
+                      id={video.external_video_id}
+                      title={video.name}
+                      params={playerParams}
+                    />
                   </div>
                 </div>
 

@@ -17,4 +17,5 @@ export interface Video {
   description: string
   transcript: string
   video_url: string
+  external_video_id: string
 }
