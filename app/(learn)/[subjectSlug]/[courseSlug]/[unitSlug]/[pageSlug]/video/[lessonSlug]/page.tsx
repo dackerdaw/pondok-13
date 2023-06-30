@@ -8,7 +8,6 @@ export default async function Page({
 }) {
   const videos = await getVideos(`filter=(slug='${params.lessonSlug}')`)
   const video = videos.items[0]
-  const playerParams = "modestbranding=1&rel=0&cc_load_policy=1"
   
   return (
     <>
@@ -29,7 +28,6 @@ export default async function Page({
                     <YoutubeClientWrapper 
                       id={video.external_video_id}
                       title={video.name}
-                      params={playerParams}
                     />
                   </div>
                   
