@@ -20,6 +20,7 @@ export default function YoutubeClientWrapper({
     const opts: YouTubeProps['opts'] = {
         playerVars: {
             cc_load_policy: 1,
+            cc_lang_pref: "en",
             rel: 0,
             modestbranding: 1,
         }   

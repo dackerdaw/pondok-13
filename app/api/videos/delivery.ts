@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { VideoList } from "./video";
+import { getSubtitles } from "youtube-caption-extractor";
 
 import 'server-only'
+import { cache } from "react";
 
 export async function getVideos(q?: string) {
     
@@ -60,3 +62,12 @@ export async function getVideo(id: string, q?: string) {
   
   return video;
 }
+
+export const fetchSubtitles = cache(async (videoId:string, lang = "en") => {
+  try {
+    const subtitles = await getSubtitles({videoID: videoId, lang: lang})
+    return subtitles
+  } catch (error) {
+    return 
+  }
+})

@@ -1,5 +1,6 @@
-import { getVideos } from "@/app/api/videos/delivery";
+import { fetchSubtitles, getVideos } from "@/app/api/videos/delivery";
 import YoutubeClientWrapper from "./_components/youtube-client-wrapper";
+import { notFound } from "next/navigation";
 
 export default async function Page({
   params,
@@ -8,6 +9,10 @@ export default async function Page({
 }) {
   const videos = await getVideos(`filter=(slug='${params.lessonSlug}')`)
   const video = videos.items[0]
+  const subtitles = await fetchSubtitles(video.external_video_id, "en")
+  if (subtitles == undefined) {
+    notFound()
+  }
   
   return (
     <>
@@ -48,6 +53,16 @@ export default async function Page({
 
             <div className="space-y-8">
               <h2 className="text-xl font-medium text-gray-300">Transcript</h2>
+              
+              <ul>
+              {subtitles.map((subtitle, index) => {
+                return (
+                 <li key={index}>
+                  {subtitle.text}
+                 </li> 
+                );
+              })}
+              </ul>
             </div>
 
           </div>
