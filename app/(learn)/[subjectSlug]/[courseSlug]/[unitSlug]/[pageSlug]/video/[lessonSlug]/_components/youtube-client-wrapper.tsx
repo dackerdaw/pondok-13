@@ -29,6 +29,7 @@ export default function YoutubeClientWrapper({
         <>
             <YouTube
                 videoId={id}
+                title={title}
                 opts={opts}
                 onReady={onPlayerReady}
                 className={styles.youtubeContainer}
