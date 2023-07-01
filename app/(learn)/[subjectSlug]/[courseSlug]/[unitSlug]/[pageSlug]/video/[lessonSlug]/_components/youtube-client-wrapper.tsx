@@ -115,7 +115,7 @@ export default function YoutubeClientWrapper({
         </div>
       </div>
 
-      <div className="col-span-full lg:col-span-1">
+      <div className="col-span-full lg:col-span-1 overflow-y-auto max-h-96">
         <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
           <div className="rounded-lg bg-black p-3.5 lg:p-6">
 
