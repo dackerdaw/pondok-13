@@ -29,7 +29,9 @@ export default function YoutubeClientWrapper({
         }
     };
 
-    const updateCurrentTranscript = (currentTime: number) => {
+    // param is set to any instead of number because getCurrentTime
+    // returns a promise<number> for some reason
+    const updateCurrentTranscript = (currentTime: any) => {
         const transcriptIndex = transcripts.findIndex(
             (transcript) => transcript.start <= currentTime && transcript.end >= currentTime
         );
