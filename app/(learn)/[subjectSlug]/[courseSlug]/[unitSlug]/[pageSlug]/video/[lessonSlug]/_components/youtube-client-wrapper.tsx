@@ -3,18 +3,15 @@
 import YouTube, { YouTubePlayer, YouTubeProps } from 'react-youtube';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 import styles from './styles.module.css'
-import type Subtitle from 'youtube-caption-extractor'
 import { useState, useRef } from 'react';
-import { Transcript } from '@/app/api/videos/video';
+import { Transcript, Video } from '@/app/api/videos/video';
 import { Button } from '@material-tailwind/react';
 
 export default function YoutubeClientWrapper({
-  id,
-  title,
+  video,
   transcripts,
 }: {
-  id: string,
-  title: string,
+  video: Video,
   transcripts: Transcript[]
 }) {
   const [currentTranscriptIndex, setCurrentTranscriptIndex] = useState(-1);
@@ -76,34 +73,77 @@ export default function YoutubeClientWrapper({
 
   return (
     <>
-      <YouTube
-        videoId={id}
-        title={title}
-        opts={opts}
-        onReady={onPlayerReady}
-        onStateChange={onStateChange}
-        className={styles.youtubeContainer}
-      />
-      <p>transcript</p>
-      <div>
-        <ul>
-          {transcripts.map((transcript, index) => (
-            <li
-              key={index}
-            >
-              <Button
-                onClick={() => {
-                  setCurrentTranscriptIndex(index);
-                  seekToTime(transcript.start)
-                }}
-                color={currentTranscriptIndex === index ? 'blue' : 'green'}
-              >
-                {transcript.startISO}
-              </Button>
-              {transcript.text}
-            </li>
-          ))}
-        </ul>
+
+
+
+      <div className="col-span-full lg:col-span-2 space-y-8">
+
+        <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
+          <div className="rounded-lg bg-black p-3.5 lg:p-6">
+
+            <div className="space-y-8">
+              <h1 className="text-xl font-medium text-gray-300">Belajar</h1>
+
+              <div className="space-y-10 text-white">
+
+                <div className="space-y-4">
+                  <h2 className="text-xl font-medium text-gray-400/80">{video.name}</h2>
+
+                  <div className="space-y-10 text-white">
+
+
+                    <YouTube
+                      videoId={video.external_video_id}
+                      title={video.name}
+                      opts={opts}
+                      onReady={onPlayerReady}
+                      onStateChange={onStateChange}
+                      className={styles.youtubeContainer}
+                    />
+                    <p>transcript</p>
+
+                  </div>
+
+                  <h3 className="text-md font-medium text-gray-400/80">Deskripsi</h3>
+                  <p>{video.description}</p>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div className="col-span-full lg:col-span-1">
+        <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
+          <div className="rounded-lg bg-black p-3.5 lg:p-6">
+
+            <div className="space-y-8">
+              <h2 className="text-xl font-medium text-gray-300">Transcript</h2>
+
+              <ul>
+                {transcripts.map((transcript, index) => (
+                  <li
+                    key={index}
+                  >
+                    <Button
+                      onClick={() => {
+                        setCurrentTranscriptIndex(index);
+                        seekToTime(transcript.start)
+                      }}
+                      color={currentTranscriptIndex === index ? 'blue' : 'green'}
+                    >
+                      {transcript.startISO}
+                    </Button>
+                    {transcript.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+          </div>
+        </div>
       </div>
     </>
   );
