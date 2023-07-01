@@ -8,6 +8,8 @@ import Latex from "react-latex";
 import MathInput from "@/ui/math-input";
 import evaluateMathInput, { MathInputAnswer } from "@/lib/evaluate-answer/evaluate-latex";
 import { colors } from '@material-tailwind/react/types/generic';
+import { ICustomer } from '@/lib/dexie/i-customer';
+import { customerTable } from '@/lib/dexie/database.config';
 
 export default function ClientWrapper({
   assessmentItems,
@@ -47,6 +49,17 @@ export default function ClientWrapper({
                 setAlertColor("green");
                 setAlertContent("Jawaban kamu benar!")
                 setAlertOpen(true);
+                
+
+                // dexie test
+                const customer: ICustomer = {
+                  name: evaluateStruct.latexInput,
+                  dept: 123,
+                }
+                
+                customerTable.add(customer).then((id) => {
+                  console.log(`a new customer was ${id}`)
+                })
               } catch (error: any) {
                 setAlertColor("orange")
                 setAlertContent(error.message)
