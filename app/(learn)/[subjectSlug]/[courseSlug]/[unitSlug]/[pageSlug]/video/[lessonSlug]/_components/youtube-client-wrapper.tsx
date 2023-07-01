@@ -18,38 +18,42 @@ export default function YoutubeClientWrapper({
     transcripts: Transcript[]
 }) {
     const [currentTranscriptIndex, setCurrentTranscriptIndex] = useState(-1);
-    const [currentTime, setCurrentTime] = useState(0);
+    // const [currentTime, setCurrentTime] = useState(0);
     const playerRef = useRef<YouTubePlayer>(); // Reference to the YouTube player instance
     const timerRef = useRef<any>(); // Reference to the timer interval
-    
+
     const seekToTime = (time: number) => {
-    if (playerRef.current) {
-      playerRef.current.seekTo(time, true);
-      setCurrentTime(time);
+        if (playerRef.current) {
+            playerRef.current.seekTo(time, true);
+            //   setCurrentTime(time);
+        }
+    };
+
+    const updateCurrentTranscript = (currentTime: number) => {
+        const transcriptIndex = transcripts.findIndex(
+            (transcript) => transcript.start <= currentTime && transcript.end >= currentTime
+        );
+        setCurrentTranscriptIndex(transcriptIndex);
+    };
+
+    const startTimer = () => {
+        timerRef.current = setInterval(() => {
+            // setCurrentTime(prevTime => prevTime + 0.5)
+            if (playerRef.current) {
+                const currentTime = playerRef.current.getCurrentTime();
+                updateCurrentTranscript(currentTime)
+            }
+        }, 500)
     }
-  };
-  
-  const updateCurrentTranscript = (currentTime: number) => {
-    const transcriptIndex = transcripts.findIndex(
-      (transcript) => transcript.start <= currentTime && transcript.end >= currentTime
-    );
-    setCurrentTranscriptIndex(transcriptIndex);
-  };
-  
-  const startTimer = () => {
-    timerRef.current = setInterval(() => {
-        setCurrentTime(prevTime => prevTime + 0.5)
-    }, 500)
-  }
-  
-  const stopTimer = () => {
-    clearInterval(timerRef.current)
-  }
+
+    const stopTimer = () => {
+        clearInterval(timerRef.current)
+    }
 
     const onPlayerReady: YouTubeProps['onReady'] = (event) => {
         playerRef.current = event.target
     }
-    
+
     const onStateChange: YouTubeProps['onStateChange'] = (event) => {
         const playerState = event.data
         if (playerState === 1) {
@@ -75,6 +79,7 @@ export default function YoutubeClientWrapper({
                 title={title}
                 opts={opts}
                 onReady={onPlayerReady}
+                onStateChange={onStateChange}
                 className={styles.youtubeContainer}
             />
             <p>transcript</p>
