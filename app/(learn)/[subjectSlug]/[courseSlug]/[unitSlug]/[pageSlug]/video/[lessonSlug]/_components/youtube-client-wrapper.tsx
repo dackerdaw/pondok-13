@@ -1,29 +1,71 @@
 "use client"
 
-import YouTube, { YouTubeProps } from 'react-youtube';
+import YouTube, { YouTubePlayer, YouTubeProps } from 'react-youtube';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 import styles from './styles.module.css'
+import type Subtitle from 'youtube-caption-extractor'
+import { useState, useRef } from 'react';
+import { Transcript } from '@/app/api/videos/video';
+import { Button } from '@material-tailwind/react';
 
 export default function YoutubeClientWrapper({
     id,
     title,
+    transcripts,
 }: {
     id: string,
     title: string,
+    transcripts: Transcript[]
 }) {
+    const [currentTranscriptIndex, setCurrentTranscriptIndex] = useState(-1);
+    const [currentTime, setCurrentTime] = useState(0);
+    const playerRef = useRef<YouTubePlayer>(); // Reference to the YouTube player instance
+    const timerRef = useRef<any>(); // Reference to the timer interval
+    
+    const seekToTime = (time: number) => {
+    if (playerRef.current) {
+      playerRef.current.seekTo(time, true);
+      setCurrentTime(time);
+    }
+  };
+  
+  const updateCurrentTranscript = (currentTime: number) => {
+    const transcriptIndex = transcripts.findIndex(
+      (transcript) => transcript.start <= currentTime && transcript.end >= currentTime
+    );
+    setCurrentTranscriptIndex(transcriptIndex);
+  };
+  
+  const startTimer = () => {
+    timerRef.current = setInterval(() => {
+        setCurrentTime(prevTime => prevTime + 0.5)
+    }, 500)
+  }
+  
+  const stopTimer = () => {
+    clearInterval(timerRef.current)
+  }
 
     const onPlayerReady: YouTubeProps['onReady'] = (event) => {
-        console.log("ready")
-        event.target.playVideo();
+        playerRef.current = event.target
     }
     
+    const onStateChange: YouTubeProps['onStateChange'] = (event) => {
+        const playerState = event.data
+        if (playerState === 1) {
+            startTimer()
+        } else {
+            stopTimer()
+        }
+    }
+
     const opts: YouTubeProps['opts'] = {
         playerVars: {
             cc_load_policy: 1,
             cc_lang_pref: "en",
             rel: 0,
             modestbranding: 1,
-        }   
+        }
     }
 
     return (
@@ -35,6 +77,21 @@ export default function YoutubeClientWrapper({
                 onReady={onPlayerReady}
                 className={styles.youtubeContainer}
             />
+            <p>transcript</p>
+            <div>
+                {transcripts.map((transcript, index) => (
+                    <Button
+                        key={index}
+                        onClick={() => {
+                            setCurrentTranscriptIndex(index);
+                            seekToTime(transcript.start)
+                        }}
+                        color={currentTranscriptIndex === index ? 'blue' : 'green'}
+                    >
+                        {transcript.text}
+                    </Button>
+                ))}
+            </div>
         </>
     );
 }

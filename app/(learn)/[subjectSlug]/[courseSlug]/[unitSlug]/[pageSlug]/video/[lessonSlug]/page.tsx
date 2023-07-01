@@ -1,6 +1,7 @@
 import { fetchSubtitles, getVideos } from "@/app/api/videos/delivery";
 import YoutubeClientWrapper from "./_components/youtube-client-wrapper";
 import { notFound } from "next/navigation";
+import { Transcript } from "@/app/api/videos/video";
 
 export default async function Page({
   params,
@@ -13,7 +14,13 @@ export default async function Page({
   if (subtitles == undefined) {
     notFound()
   }
-  
+  const transcripts = subtitles.map(sub => ({
+   start: +sub.start,
+   dur: +sub.dur,
+   end: +sub.start + +sub.dur,
+   text: sub.text
+  }))
+
   return (
     <>
       <div className="col-span-full lg:col-span-2 space-y-8">
@@ -33,6 +40,7 @@ export default async function Page({
                     <YoutubeClientWrapper 
                       id={video.external_video_id}
                       title={video.name}
+                      transcripts={transcripts}
                     />
                   </div>
                   

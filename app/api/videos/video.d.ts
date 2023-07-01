@@ -19,3 +19,10 @@ export interface Video {
   video_url: string
   external_video_id: string
 }
+
+export interface Transcript {
+    start: number;
+    dur: number;
+    end: number;
+    text: string;
+}
