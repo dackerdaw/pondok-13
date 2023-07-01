@@ -18,6 +18,7 @@ export default async function Page({
    start: +sub.start,
    dur: +sub.dur,
    end: +sub.start + +sub.dur,
+   startISO: new Date(+sub.start * 1000).toISOString().slice(14, 19),
    text: sub.text
   }))
 

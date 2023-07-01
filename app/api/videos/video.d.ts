@@ -24,5 +24,6 @@ export interface Transcript {
     start: number;
     dur: number;
     end: number;
+    startISO: string;
     text: string;
 }
