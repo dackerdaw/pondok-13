@@ -78,8 +78,6 @@ export default function YoutubeClientWrapper({
       const activeTranscriptElement = transcriptContainerRef.current.children[currentTranscriptIndex] as HTMLElement;
       if (activeTranscriptElement) {
         const topPos = activeTranscriptElement.offsetTop;
-        console.log(activeTranscriptElement)
-        console.log(topPos)
         transcriptContainerRef.current.scrollTop = topPos - 192;
       }
     }
