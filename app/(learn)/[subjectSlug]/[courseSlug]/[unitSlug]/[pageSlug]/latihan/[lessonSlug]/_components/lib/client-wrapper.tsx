@@ -37,6 +37,7 @@ export default function ClientWrapper({
         return (
           <>
             <MathInput
+              className='min-w-[10rem]'
               onChange={(input: string) => setLatexInput(input)}
             />
 
