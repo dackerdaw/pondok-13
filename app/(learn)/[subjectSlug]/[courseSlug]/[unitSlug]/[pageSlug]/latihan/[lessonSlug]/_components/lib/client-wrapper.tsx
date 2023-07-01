@@ -41,7 +41,7 @@ export default function ClientWrapper({
               onChange={(input: string) => setLatexInput(input)}
             />
 
-            <button onClick={() => {
+            <Button onClick={() => {
               try {
                 const pass = evaluateMathInput(evaluateStruct)
                 setAlertColor("green");
@@ -52,7 +52,7 @@ export default function ClientWrapper({
                 setAlertContent(error.message)
                 setAlertOpen(true);
               }
-            }}>Kirim</button>
+            }}>Kirim</Button>
           </>
         );
       default:
