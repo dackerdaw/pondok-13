@@ -1,10 +1,15 @@
-import Dexie from "dexie";
+import { Task } from "@/app/api/practices/getOrCreatePracticeTask";
+import Dexie, { Table } from "dexie";
 
-const database = new Dexie("database");
-database.version(1).stores({
-  customers: '++id, name, dept',
-});
+export class MySubClassedDexie extends Dexie {
+    tasks!: Table<Task>;
+    
+    constructor() {
+        super('tasks');
+        this.version(1).stores({
+            tasks: 'slug'
+        });
+    }
+}
 
-export const customerTable = database.table('customers');
-
-export default database;
+export const db = new MySubClassedDexie();

@@ -1,4 +1,5 @@
 import { Practice, ProblemType } from "@/app/api/practices/practice";
+import { AssessmentItem } from "../assessment-items/assessment-items";
 
 export interface Task {
     slug: string;
@@ -10,6 +11,7 @@ export interface Task {
     timeEstimateLowerBound: number;
     timeEstimateUpperBound: number;
     masteryLevel: string
+    assessmentItems: AssessmentItem[];
 }
 
 export function getOrCreatePracticeTask(practice: Practice) {
@@ -31,6 +33,7 @@ export function practiceToTask(practice: Practice) {
     timeEstimateLowerBound: practice.time_estimate_lower_bound,
     timeEstimateUpperBound: practice.time_estimate_upper_bound,
     masteryLevel: "unfamiliar",
+    assessmentItems: [],
   };
 
   return task;
