@@ -46,7 +46,6 @@ export default function ClientWrapper({
     init();
   }, [])
 
-  // Check if the task object is defined before accessing its properties
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(task?.reservedItemsCompleted.length ? - 1 : 0)
   const questionListMaxIndex = task && task.assessmentItems.length > 0 ? task.assessmentItems.length - 1 : 0;
   const currentQuestion = task && task.assessmentItems[currentQuestionIndex];
@@ -89,6 +88,7 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
       setActiveStep((curr) => curr + 1)
       setPreventNext(true)
+      setAlertOpen(false)
       return
     }
   };
@@ -124,7 +124,7 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
           </Stepper>
           <div className="mt-16 flex justify-between">
             <Button onClick={next}
-              disabled={preventNext}>
+              disabled={preventNext || activeStep === questionListMaxIndex}>
               Next
             </Button>
           </div>
