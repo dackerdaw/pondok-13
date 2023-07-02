@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Button } from "@material-tailwind/react";
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, Step, Stepper } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Latex from "react-latex";
 import MathInput from "@/ui/math-input";
@@ -54,6 +54,11 @@ export default function ClientWrapper({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertColor, setAlertColor] = useState<colors>();
   const [alertContent, setAlertContent] = useState("");
+  
+  
+  const [activeStep, setActiveStep] = React.useState(task?.reservedItemsCompleted.length ?? 0);
+  const [isLastStep, setIsLastStep] = React.useState(false);
+  const [isFirstStep, setIsFirstStep] = React.useState(false);
 
   const [latexInput, setLatexInput] = useState("");
   // const [mathJSONInput, setMathJSONInput] = useState();
@@ -79,12 +84,22 @@ export default function ClientWrapper({
                 setAlertColor("green");
                 setAlertContent("Jawaban kamu benar!")
                 setAlertOpen(true);
+                task?.reservedItemsCompleted.push(currentQuestion.id)
+
+                db.tasks.update(practice.slug, { reservedItemsCompleted: task?.reservedItemsCompleted }).then((updated) => {
+                  if (updated)
+                    setActiveStep((curr) => curr + 1)
+                  else
+                    console.log("failed update");
+                })
               } catch (error: any) {
                 setAlertColor("orange")
                 setAlertContent(error.message)
                 setAlertOpen(true);
               }
-            }}>Kirim</Button>
+            }}
+            disabled={currentQuestionIndex !== activeStep}
+            >Kirim</Button>
           </>
         );
       default:
@@ -110,6 +125,10 @@ export default function ClientWrapper({
     }
   };
 
+
+  const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
+  const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
+
   if (currentQuestion) {
     return (
       <>
@@ -123,7 +142,38 @@ export default function ClientWrapper({
           {alertContent}
         </Alert>
 
-        <div className="flex items-center gap-4">
+        <div className="w-full py-4 px-8">
+          <Stepper
+            activeStep={activeStep}
+            isLastStep={(value) => setIsLastStep(value)}
+            isFirstStep={(value) => setIsFirstStep(value)}
+          >
+            {task.assessmentItems.map((item, index) => {
+              return (
+                <Step key={index}
+                  // onClick={() => setCurrentQuestionIndex(index)}
+                  onClick={index <= activeStep ?
+                    () => setCurrentQuestionIndex(index)
+                    :
+                    () => setCurrentQuestionIndex((curr) => curr)
+                  }
+                >{index + 1}</Step>
+              )
+            })}
+          </Stepper>
+          <div className="mt-16 flex justify-between">
+            <Button onClick={prev}
+              disabled={currentQuestionIndex === 0}>
+              Prev
+            </Button>
+            <Button onClick={next}
+              disabled={currentQuestionIndex === activeStep}>
+              Next
+            </Button>
+          </div>
+        </div>
+
+        {/* <div className="flex items-center gap-4">
 
           <Button
             variant="text"
@@ -146,7 +196,7 @@ export default function ClientWrapper({
           >
             <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
           </Button>
-        </div>
+        </div> */}
       </>
     );
   } else {
