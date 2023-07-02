@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Button } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
 import Latex from "react-latex";
 import MathInput from "@/ui/math-input";
 import evaluateMathInput, { MathInputAnswer } from "@/lib/evaluate-answer/evaluate-latex";
@@ -28,7 +27,6 @@ export default function ClientWrapper({
       try {
         loadTask = await db.tasks
           .get(practice.slug)
-        console.log(`getting data success ${loadTask}`)
       } catch (error) {
         console.log(`getting data error ${error}`)
       }
@@ -37,21 +35,16 @@ export default function ClientWrapper({
         loadTask = await prepareTask()
         try {
           const id = await db.tasks.add(loadTask)
-          console.log(`saving data success ${id}`)
         } catch (error) {
           console.log("saving data failed")
         }
       }
 
-      console.log(`final: ${loadTask}`)
       setTask(loadTask)
     }
 
     init();
   }, [])
-
-  // const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  // const questionListMaxIndex = taskRef.current!.assessmentItems.length === 0 ? 0 : taskRef.current!.assessmentItems.length - 1
 
   // Check if the task object is defined before accessing its properties
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
@@ -61,8 +54,6 @@ export default function ClientWrapper({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertColor, setAlertColor] = useState<colors>();
   const [alertContent, setAlertContent] = useState("");
-
-
 
   const [latexInput, setLatexInput] = useState("");
   // const [mathJSONInput, setMathJSONInput] = useState();
