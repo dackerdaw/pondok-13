@@ -41,13 +41,15 @@ export default function ClientWrapper({
       }
 
       setTask(loadTask)
+      setCurrentQuestionIndex(loadTask.reservedItemsCompleted.length)
+      setActiveStep(loadTask.reservedItemsCompleted.length)
     }
 
     init();
   }, [])
 
   // Check if the task object is defined before accessing its properties
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(task?.reservedItemsCompleted.length? - 1 : 0)
   const questionListMaxIndex = task && task.assessmentItems.length > 0 ? task.assessmentItems.length - 1 : 0;
   const currentQuestion = task && task.assessmentItems[currentQuestionIndex];
 
@@ -56,7 +58,7 @@ export default function ClientWrapper({
   const [alertContent, setAlertContent] = useState("");
   
   
-  const [activeStep, setActiveStep] = React.useState(task?.reservedItemsCompleted.length ?? 0);
+  const [activeStep, setActiveStep] = React.useState(task?.reservedItemsCompleted.length? - 1 : 0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
 
@@ -152,20 +154,20 @@ export default function ClientWrapper({
               return (
                 <Step key={index}
                   // onClick={() => setCurrentQuestionIndex(index)}
-                  onClick={index <= activeStep ?
-                    () => setCurrentQuestionIndex(index)
-                    :
-                    () => setCurrentQuestionIndex((curr) => curr)
-                  }
+                  // onClick={index <= activeStep ?
+                  //   () => setCurrentQuestionIndex(index)
+                  //   :
+                  //   () => setCurrentQuestionIndex((curr) => curr)
+                  // }
                 >{index + 1}</Step>
               )
             })}
           </Stepper>
           <div className="mt-16 flex justify-between">
-            <Button onClick={prev}
+            {/* <Button onClick={prev}
               disabled={currentQuestionIndex === 0}>
               Prev
-            </Button>
+            </Button> */}
             <Button onClick={next}
               disabled={currentQuestionIndex === activeStep}>
               Next
