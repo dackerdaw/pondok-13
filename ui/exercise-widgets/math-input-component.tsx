@@ -16,6 +16,7 @@ export default function MathInputComponent({
   onEvaluate: (res: EvaluateResponse) => (void),
 }) {
   const [latexInput, setLatexInput] = useState("");
+  const [preventSubmit, setPreventSubmit] = useState(false);
 
   const handleSubmit = () => {
     const evaluateStruct = {
@@ -26,6 +27,9 @@ export default function MathInputComponent({
     } as MathInputAnswer;
 
     const evaluateRes = evaluateMathInput(evaluateStruct);
+    if (evaluateRes.code == 200) {
+      setPreventSubmit(true)
+    } 
     onEvaluate(evaluateRes);
   };
 
@@ -35,7 +39,7 @@ export default function MathInputComponent({
         className='min-w-[10rem]'
         onChange={(input: string) => setLatexInput(input)}
       />
-      <Button onClick={handleSubmit}>Kirim</Button>
+      <Button onClick={handleSubmit} disabled={preventSubmit}>Kirim</Button>
     </>
   );
 };

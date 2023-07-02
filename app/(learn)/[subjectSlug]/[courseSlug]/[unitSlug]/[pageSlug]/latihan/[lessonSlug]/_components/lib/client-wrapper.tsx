@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Button, Step, Stepper } from "@material-tailwind/react";
 import Latex from "react-latex";
 import { colors } from '@material-tailwind/react/types/generic';
@@ -56,7 +56,11 @@ export default function ClientWrapper({
   const [alertContent, setAlertContent] = useState("");
 
 
-  const [activeStep, setActiveStep] = React.useState(task && task.reservedItemsCompleted.length > 0 ? task.reservedItemsCompleted.length - 1 : 0);
+  const [activeStep, setActiveStep] = useState(task && task.reservedItemsCompleted.length > 0 ? task.reservedItemsCompleted.length - 1 : 0);
+  const [maxUnlockedStep, setMaxUnlockedStep] = useState(task && task.reservedItemsCompleted.length > 0 ? task.reservedItemsCompleted.length - 1 : 0)
+  console.log(`current question index ${currentQuestionIndex}`)
+  console.log(`current active step ${activeStep}`)
+  console.log(`current max unlocked step ${maxUnlockedStep}`)
 
   // const [mathJSONInput, setMathJSONInput] = useState();
 const handleAnswerSubmit = (res: EvaluateResponse) => {
@@ -67,7 +71,7 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
       task?.reservedItemsCompleted.push(currentQuestion?.id!);
       db.tasks.update(practice.slug, { reservedItemsCompleted: task?.reservedItemsCompleted }).then((updated) => {
         if (updated) {
-          setActiveStep((curr) => curr + 1);
+          setMaxUnlockedStep((curr) => curr + 1)
         } else {
           console.log("failed update");
         }
@@ -84,6 +88,7 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
       return
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
+      setActiveStep((curr) => curr + 1)
       return
     }
   };
@@ -119,7 +124,7 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
           </Stepper>
           <div className="mt-16 flex justify-between">
             <Button onClick={next}
-              disabled={currentQuestionIndex === activeStep}>
+              disabled={currentQuestionIndex >= maxUnlockedStep}>
               Next
             </Button>
           </div>
