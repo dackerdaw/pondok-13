@@ -9,6 +9,7 @@ import { Practice } from '@/app/api/practices/practice';
 import { Task } from '@/app/api/practices/getOrCreatePracticeTask';
 import AnswerTypeComponent, { EvaluateResponse } from './answer-type-component';
 import evaluateMathInput, { MathInputAnswer } from '@/lib/evaluate-answer/evaluate-latex';
+import evaluateAnswer from './evaluate-answer-type';
 
 export default function ClientWrapper({
   practice,
@@ -39,7 +40,7 @@ export default function ClientWrapper({
           console.log("saving data failed")
         }
       }
-      
+
       if (loadTask.reservedItemsCompleted.length >= loadTask.reservedItems.length) {
         loadTask = await prepareTask()
         try {
@@ -70,16 +71,13 @@ export default function ClientWrapper({
   const [activeStep, setActiveStep] = useState(task && task.reservedItemsCompleted.length > 0 ? task.reservedItemsCompleted.length - 1 : 0);
   const [isCorrect, setIsCorrect] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
-  
+
   const handleSubmit = () => {
-    const evaluateStruct = {
-      latexInput: answer,
-      mathJSONCorrectAnswer: currentQuestion?.answer,
-      simplify: currentQuestion?.extras?.simplify,
-      tolerance: currentQuestion?.extras?.tolerance,
-    } as MathInputAnswer;
-    
-    const evaluateRes = evaluateMathInput(evaluateStruct);
+    const evaluateRes = evaluateAnswer({
+      question: currentQuestion!,
+      answer: answer,
+    })
+
     if (evaluateRes.code == 200) {
       setAlertColor("green");
       setAlertContent("Jawaban kamu benar!");
@@ -100,7 +98,7 @@ export default function ClientWrapper({
       setAlertContent(evaluateRes.message);
       setAlertOpen(true);
     }
-  };
+  }
 
   const next = () => {
     if (currentQuestionIndex === questionListMaxIndex) {
@@ -131,10 +129,10 @@ export default function ClientWrapper({
 
           <div className="flex justify-between">
             <NextButton
-            handleNext={next}
-            isCorrect={isCorrect}
-            isComplete={isComplete}
-            handleSubmit={handleSubmit}
+              handleNext={next}
+              isCorrect={isCorrect}
+              isComplete={isComplete}
+              handleSubmit={handleSubmit}
             />
           </div>
           <Stepper
@@ -144,7 +142,7 @@ export default function ClientWrapper({
             {task.assessmentItems.map((item, index) => {
               return (
                 <Step key={index}
-                className='h-4 w-4'
+                  className='h-4 w-4'
                 />
               )
             })}
