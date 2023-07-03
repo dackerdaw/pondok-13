@@ -70,8 +70,6 @@ export default function ClientWrapper({
   const [activeStep, setActiveStep] = useState(task && task.reservedItemsCompleted.length > 0 ? task.reservedItemsCompleted.length - 1 : 0);
   const [isCorrect, setIsCorrect] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
-  console.log(`current question index ${currentQuestionIndex}`)
-  console.log(`current active step ${activeStep}`)
   
   const handleSubmit = () => {
     const evaluateStruct = {
