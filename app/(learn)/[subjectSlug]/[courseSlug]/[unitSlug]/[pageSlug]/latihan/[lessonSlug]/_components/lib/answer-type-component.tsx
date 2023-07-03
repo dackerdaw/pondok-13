@@ -12,7 +12,6 @@ export default function AnswerTypeComponent({
   switch (question.answer_type) {
     case "math-input":
       return <MathInputComponent
-      question={question}
       onMathInputChange={onAnswerChange}
       />;
     // Add cases for other answer types here
