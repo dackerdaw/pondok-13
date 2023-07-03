@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     template: '%s | Pondok Pelajar',
   },
   description: 'Pelajari bidang ilmu yang diinginkan',
+  viewport: 'initial-scale=1, width=device-width',
 }
 
 

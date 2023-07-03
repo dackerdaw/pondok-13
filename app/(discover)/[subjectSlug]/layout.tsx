@@ -3,6 +3,11 @@ import { getSubjects } from '@/app/api/subjects/delivery';
 import { ClickCounter } from '@/ui/click-counter';
 import { TabGroup } from '@/ui/tab-group';
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 export default async function Layout({
   children,
   params,

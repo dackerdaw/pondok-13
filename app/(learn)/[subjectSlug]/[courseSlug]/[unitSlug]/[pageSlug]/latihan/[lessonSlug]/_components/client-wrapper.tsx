@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Alert, Button, Step, Stepper } from "@material-tailwind/react";
+import { Accordion, AccordionBody, AccordionHeader, Alert, Button, Step, Stepper } from "@material-tailwind/react";
 import Latex from "react-latex";
 import { colors } from '@material-tailwind/react/types/generic';
 import { db } from '@/lib/dexie/database.config';
@@ -9,7 +9,9 @@ import { Practice } from '@/app/api/practices/practice';
 import { Task } from '@/app/api/practices/getOrCreatePracticeTask';
 import AnswerTypeComponent, { EvaluateResponse } from './answer-type-component';
 import evaluateMathInput, { MathInputAnswer } from '@/lib/evaluate-answer/evaluate-latex';
-import evaluateAnswer from './evaluate-answer-type';
+import evaluateAnswer from './lib/evaluate-answer-type';
+import VerticalLinearStepper from '@/ui/vertical-stepper';
+import HintsAccordion from './hints-component';
 
 export default function ClientWrapper({
   practice,
@@ -67,10 +69,14 @@ export default function ClientWrapper({
   const [alertColor, setAlertColor] = useState<colors>();
   const [alertContent, setAlertContent] = useState("");
 
-
   const [activeStep, setActiveStep] = useState(task && task.reservedItemsCompleted.length > 0 ? task.reservedItemsCompleted.length - 1 : 0);
   const [isCorrect, setIsCorrect] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
+
+  const [open, setOpen] = useState(0);
+  const handleOpen = (value: number) => {
+    setOpen(open === value ? 0 : value);
+  };
 
   const handleSubmit = () => {
     const evaluateRes = evaluateAnswer({
@@ -153,6 +159,15 @@ export default function ClientWrapper({
           {alertContent}
         </Alert>
 
+          <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
+            <AccordionHeader className='text-white' onClick={() => handleOpen(1)}>
+              Merasa kesulitan? klik di sini untuk melihat petunjuk
+            </AccordionHeader>
+            <AccordionBody>
+              <HintsAccordion question={currentQuestion} />
+            </AccordionBody>
+          </Accordion>
+
       </>
     );
   } else {
@@ -193,4 +208,20 @@ function NextButton({
       </Button>
     )
   }
+}
+
+function Icon({ id, open }: { id: number, open: number }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={`${id === open ? "rotate-180" : ""
+        } h-5 w-5 transition-transform`}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  );
 }

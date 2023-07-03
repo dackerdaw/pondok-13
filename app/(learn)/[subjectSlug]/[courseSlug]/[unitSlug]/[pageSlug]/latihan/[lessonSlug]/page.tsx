@@ -3,7 +3,7 @@ import 'katex/dist/katex.min.css';
 import { getPractices } from "@/app/api/practices/delivery";
 import { getOrCreatePracticeTask } from "@/app/api/practices/getOrCreatePracticeTask";
 import { getAssessmentItem } from "@/app/api/assessment-items/delivery";
-import ClientWrapper from "./_components/lib/client-wrapper";
+import ClientWrapper from "./_components/client-wrapper";
 import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
 
 export default async function Page({
