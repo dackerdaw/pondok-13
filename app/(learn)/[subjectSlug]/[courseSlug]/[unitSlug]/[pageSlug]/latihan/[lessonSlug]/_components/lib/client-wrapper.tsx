@@ -126,22 +126,10 @@ export default function ClientWrapper({
           onAnswerChange={setAnswer}
         />
 
-        <Alert open={alertOpen} onClose={() => setAlertOpen(false)} color={alertColor}>
-          {alertContent}
-        </Alert>
 
         <div className="w-full py-4 px-8">
-          <Stepper
-            activeStep={activeStep}
-          >
-            {task.assessmentItems.map((item, index) => {
-              return (
-                <Step key={index}
-                >{index + 1}</Step>
-              )
-            })}
-          </Stepper>
-          <div className="mt-16 flex justify-between">
+
+          <div className="flex justify-between">
             <NextButton
             handleNext={next}
             isCorrect={isCorrect}
@@ -149,7 +137,23 @@ export default function ClientWrapper({
             handleSubmit={handleSubmit}
             />
           </div>
+          <Stepper
+            activeStep={activeStep}
+            className='mt-16'
+          >
+            {task.assessmentItems.map((item, index) => {
+              return (
+                <Step key={index}
+                className='h-4 w-4'
+                />
+              )
+            })}
+          </Stepper>
         </div>
+
+        <Alert open={alertOpen} onClose={() => setAlertOpen(false)} color={alertColor}>
+          {alertContent}
+        </Alert>
 
       </>
     );
