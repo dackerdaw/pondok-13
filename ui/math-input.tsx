@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MathfieldElement, MathfieldOptions, serializeMathJsonToLatex } from "mathlive";
+import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
 
 export type MathfieldProps = {
   options?: Partial<MathfieldOptions>;
+  question: AssessmentItem;
 
-  onChange?: any;
+  onChange: any;
   readOnly?: boolean;
   mathJSON?: any;
 
@@ -38,6 +40,15 @@ const MathInput = (props: MathfieldProps) => {
     // props.onChange ? props.onChange(mathJSON) : console.log(mathJSON)
     props.onChange ? props.onChange(value) : console.log(value)
   }, [value]);
+  
+  useEffect(() => {
+    const el = ref.current;
+    if (el) {
+      el.value = serializeMathJsonToLatex(props.mathJSON)
+      setValue('')
+      props.onChange('')
+    }
+  }, [props.question])
 
   return (
     <div>

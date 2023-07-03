@@ -78,14 +78,9 @@ export default function ClientWrapper({
       simplify: currentQuestion?.extras?.simplify,
       tolerance: currentQuestion?.extras?.tolerance,
     } as MathInputAnswer;
-
+    
     const evaluateRes = evaluateMathInput(evaluateStruct);
-    handleAnswerSubmit(evaluateRes);
-  };
-
-  // const [mathJSONInput, setMathJSONInput] = useState();
-  const handleAnswerSubmit = (res: EvaluateResponse) => {
-    if (res.code == 200) {
+    if (evaluateRes.code == 200) {
       setAlertColor("green");
       setAlertContent("Jawaban kamu benar!");
       setAlertOpen(true);
@@ -102,7 +97,7 @@ export default function ClientWrapper({
       });
     } else {
       setAlertColor("orange");
-      setAlertContent(res.message);
+      setAlertContent(evaluateRes.message);
       setAlertOpen(true);
     }
   };
