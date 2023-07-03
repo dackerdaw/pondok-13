@@ -101,9 +101,7 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
         </Latex>
 
         <AnswerTypeComponent
-          answerType={currentQuestion.answer_type}
-          answer={currentQuestion.answer}
-          extras={currentQuestion.extras}
+          question={currentQuestion}
           onEvaluate={handleAnswerSubmit}
         />
 

@@ -1,21 +1,18 @@
+import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
 import MathInputComponent from "@/ui/exercise-widgets/math-input-component";
 
 export default function AnswerTypeComponent({
-  answerType,
-  answer,
-  extras,
+  question,
   onEvaluate,
 }: {
-  answerType: string
-  answer: any,
-  extras: any,
+  question: AssessmentItem
   onEvaluate: (res: EvaluateResponse) => (void),
 }) {
-  switch (answerType) {
+  
+  switch (question.answer_type) {
     case "math-input":
       return <MathInputComponent
-      answer={answer}
-      extras={extras}
+      question={question}
       onEvaluate={onEvaluate}
       />;
     // Add cases for other answer types here

@@ -1,29 +1,33 @@
 'use client'
 
 import { ComputeEngine } from "@cortex-js/compute-engine";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MathInput from "../math-input";
 import { Button } from "@material-tailwind/react";
 import { EvaluateResponse } from "@/app/(learn)/[subjectSlug]/[courseSlug]/[unitSlug]/[pageSlug]/latihan/[lessonSlug]/_components/lib/answer-type-component";
+import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
 
 export default function MathInputComponent({
-    answer,
-    extras,
+    question,
     onEvaluate
 }: {
-  answer: any, 
-  extras: any,
+  question: AssessmentItem
   onEvaluate: (res: EvaluateResponse) => (void),
 }) {
   const [latexInput, setLatexInput] = useState("");
   const [preventSubmit, setPreventSubmit] = useState(false);
+  
+  useEffect(() => {
+    setLatexInput("")
+    setPreventSubmit(false)
+  }, [question])
 
   const handleSubmit = () => {
     const evaluateStruct = {
       latexInput,
-      mathJSONCorrectAnswer: answer,
-      simplify: extras?.simplify,
-      tolerance: extras?.tolerance,
+      mathJSONCorrectAnswer: question.answer,
+      simplify: question.extras?.simplify,
+      tolerance: question.extras?.tolerance,
     } as MathInputAnswer;
 
     const evaluateRes = evaluateMathInput(evaluateStruct);
