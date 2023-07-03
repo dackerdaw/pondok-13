@@ -12,7 +12,7 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
     // ce.tolerance = answer.tolerance;
     const boxedInput = ce.parse(answer.latexInput, { canonical: false })
     if (!boxedInput.isValid) {
-        throw {
+        return {
             code: 400,
             message: "Jawaban kamu belum valid. Pastikan jawabanmu sudah lengkap."
         };
@@ -20,7 +20,7 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
     
     let canonicalAnswer = ce.box(answer.mathJSONCorrectAnswer);
     if (!canonicalAnswer.isValid) {
-        throw {
+        return {
             code: 500,
             message: "Invalid answer from database"
         }
@@ -28,18 +28,21 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
     
     const passed = boxedInput.isEqual(canonicalAnswer)
     if (!passed) {
-        throw {
+        return {
             code: 460,
             message: "Jawabanmu belum sesuai. Kamu bisa melihat petunjuk bila kesulitan."
         }
     }
     
     if (answer.simplify && boxedInput.latex != canonicalAnswer.latex) {
-        throw {
+        return {
             code: 461,
             message: "Jawabanmu sudah benar, namun masih bisa disederhanakan."
         }
     }
     
-    return true
+    return {
+      code: 200,
+      message: "Jawaban kamu benar!"
+    }
 }

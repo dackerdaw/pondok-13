@@ -8,6 +8,7 @@ import { db } from '@/lib/dexie/database.config';
 import { Practice } from '@/app/api/practices/practice';
 import { Task } from '@/app/api/practices/getOrCreatePracticeTask';
 import AnswerTypeComponent, { EvaluateResponse } from './answer-type-component';
+import evaluateMathInput, { MathInputAnswer } from '@/lib/evaluate-answer/evaluate-latex';
 
 export default function ClientWrapper({
   practice,
@@ -29,10 +30,20 @@ export default function ClientWrapper({
         console.log(`getting data error ${error}`)
       }
 
+      // might wanna group these two condition together but idk how
       if (loadTask == undefined) {
         loadTask = await prepareTask()
         try {
           const id = await db.tasks.add(loadTask)
+        } catch (error) {
+          console.log("saving data failed")
+        }
+      }
+      
+      if (loadTask.reservedItemsCompleted.length >= loadTask.reservedItems.length) {
+        loadTask = await prepareTask()
+        try {
+          const id = await db.tasks.update(loadTask.slug, loadTask)
         } catch (error) {
           console.log("saving data failed")
         }
@@ -50,18 +61,32 @@ export default function ClientWrapper({
   const questionListMaxIndex = task && task.assessmentItems.length > 0 ? task.assessmentItems.length - 1 : 0;
   const currentQuestion = task && task.assessmentItems[currentQuestionIndex];
 
+  const [answer, setAnswer] = useState<any>()
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertColor, setAlertColor] = useState<colors>();
   const [alertContent, setAlertContent] = useState("");
 
 
   const [activeStep, setActiveStep] = useState(task && task.reservedItemsCompleted.length > 0 ? task.reservedItemsCompleted.length - 1 : 0);
-  const [preventNext, setPreventNext] = useState(true)
+  const [isCorrect, setIsCorrect] = useState(false)
+  const [isComplete, setIsComplete] = useState(false)
   console.log(`current question index ${currentQuestionIndex}`)
   console.log(`current active step ${activeStep}`)
+  
+  const handleSubmit = () => {
+    const evaluateStruct = {
+      latexInput: answer,
+      mathJSONCorrectAnswer: currentQuestion?.answer,
+      simplify: currentQuestion?.extras?.simplify,
+      tolerance: currentQuestion?.extras?.tolerance,
+    } as MathInputAnswer;
+
+    const evaluateRes = evaluateMathInput(evaluateStruct);
+    handleAnswerSubmit(evaluateRes);
+  };
 
   // const [mathJSONInput, setMathJSONInput] = useState();
-const handleAnswerSubmit = (res: EvaluateResponse) => {
+  const handleAnswerSubmit = (res: EvaluateResponse) => {
     if (res.code == 200) {
       setAlertColor("green");
       setAlertContent("Jawaban kamu benar!");
@@ -69,7 +94,10 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
       task?.reservedItemsCompleted.push(currentQuestion?.id!);
       db.tasks.update(practice.slug, { reservedItemsCompleted: task?.reservedItemsCompleted }).then((updated) => {
         if (updated) {
-          setPreventNext(false)
+          setIsCorrect(true)
+          if (task?.reservedItemsCompleted.length === task?.reservedItems.length) {
+            setIsComplete(true)
+          }
         } else {
           console.log("failed update");
         }
@@ -87,7 +115,7 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
       setActiveStep((curr) => curr + 1)
-      setPreventNext(true)
+      setIsCorrect(false)
       setAlertOpen(false)
       return
     }
@@ -102,7 +130,7 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
 
         <AnswerTypeComponent
           question={currentQuestion}
-          onEvaluate={handleAnswerSubmit}
+          onAnswerChange={setAnswer}
         />
 
         <Alert open={alertOpen} onClose={() => setAlertOpen(false)} color={alertColor}>
@@ -121,10 +149,12 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
             })}
           </Stepper>
           <div className="mt-16 flex justify-between">
-            <Button onClick={next}
-              disabled={preventNext || activeStep === questionListMaxIndex}>
-              Next
-            </Button>
+            <NextButton
+            handleNext={next}
+            isCorrect={isCorrect}
+            isComplete={isComplete}
+            handleSubmit={handleSubmit}
+            />
           </div>
         </div>
 
@@ -134,4 +164,38 @@ const handleAnswerSubmit = (res: EvaluateResponse) => {
     return <p>Loading...</p>
   }
 
+}
+
+function NextButton({
+  isCorrect,
+  isComplete,
+  handleNext,
+  handleSubmit,
+}: {
+  isCorrect: boolean
+  isComplete: boolean
+  handleNext: () => void
+  handleSubmit: any,
+}) {
+  if (isCorrect) {
+    if (isComplete) {
+      return (
+        <Button disabled={true}>
+          Selesai
+        </Button>
+      )
+    } else {
+      return (
+        <Button onClick={handleNext}>
+          Selanjutnya
+        </Button>
+      )
+    }
+  } else {
+    return (
+      <Button onClick={handleSubmit}>
+        Kirim
+      </Button>
+    )
+  }
 }
