@@ -14,7 +14,7 @@ export default function evaluateAnswer({
   switch (question.answer_type) {
     case "math-input":
       answerStruct = {
-        latexInput: answer,
+        mathJSONInput: answer,
         mathJSONCorrectAnswer: question.answer,
         simplify: question.extras.simplify,
         tolerance: question.extras.tolerance,

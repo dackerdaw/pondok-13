@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MathfieldElement, MathfieldOptions, serializeMathJsonToLatex } from "mathlive";
 import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
+import { ComputeEngine } from "@cortex-js/compute-engine";
 
 export type MathfieldProps = {
   options?: Partial<MathfieldOptions>;
@@ -16,8 +17,9 @@ export type MathfieldProps = {
 };
 
 const MathInput = (props: MathfieldProps) => {
+    const ce = new ComputeEngine();
   const ref = useRef<MathfieldElement>(null);
-  const [value, setValue] = useState<string>("");
+  const [latexValue, setLatexValue] = useState<string>("");
   const [mathJSON, setMathJSON] = useState();
 
   useEffect(() => {
@@ -27,7 +29,7 @@ const MathInput = (props: MathfieldProps) => {
     if (el) {
       // el.virtualKeyboardMode = "manual";
       el.onchange = () => {
-        setValue(el.value);
+        setLatexValue(el.value);
         setMathJSON(el.expression)
       }
       el.readOnly = props.readOnly ?? false
@@ -38,14 +40,16 @@ const MathInput = (props: MathfieldProps) => {
 
   useEffect(() => {
     // props.onChange ? props.onChange(mathJSON) : console.log(mathJSON)
-    props.onChange ? props.onChange(value) : console.log(value)
-  }, [value]);
+    // props.onChange ? props.onChange(latexValue) : console.log(latexValue)
+    const resolvedMathJSON = ce.parse(latexValue, { canonical: false })
+    props.onChange ? props.onChange(resolvedMathJSON.json) : console.log(resolvedMathJSON)
+  }, [latexValue]);
   
   useEffect(() => {
     const el = ref.current;
     if (el) {
       el.value = serializeMathJsonToLatex(props.mathJSON)
-      setValue('')
+      setLatexValue('')
       props.onChange('')
     }
   }, [props.question])

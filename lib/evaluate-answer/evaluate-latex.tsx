@@ -1,8 +1,8 @@
 import { ComputeEngine } from "@cortex-js/compute-engine";
 
 export interface MathInputAnswer {
-    latexInput: string;
-    mathJSONCorrectAnswer: any;
+    mathJSONInput: any; // unboxed
+    mathJSONCorrectAnswer: any; // unboxed
     simplify: boolean;
     tolerance: number
 }
@@ -10,7 +10,7 @@ export interface MathInputAnswer {
 export default function evaluateMathInput(answer: MathInputAnswer) {   
     const ce = new ComputeEngine();
     // ce.tolerance = answer.tolerance;
-    const boxedInput = ce.parse(answer.latexInput, { canonical: false })
+    const boxedInput = ce.box(answer.mathJSONInput, { canonical: false })
     if (!boxedInput.isValid) {
         return {
             code: 400,
@@ -34,7 +34,7 @@ export default function evaluateMathInput(answer: MathInputAnswer) {
         }
     }
     
-    if (answer.simplify && boxedInput.latex != canonicalAnswer.latex) {
+    if (answer.simplify && !boxedInput.isCanonical) {
         return {
             code: 461,
             message: "Jawabanmu sudah benar, namun masih bisa disederhanakan."

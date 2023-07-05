@@ -14,7 +14,7 @@ export default function MathInputComponent({
       <MathInput
         question={question}
         className='min-w-[10rem]'
-        onChange={(input: string) => onMathInputChange(input)}
+        onChange={(mathJSONInput: any) => onMathInputChange(mathJSONInput)}
       />
     </>
   );
