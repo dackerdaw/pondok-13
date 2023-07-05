@@ -12,6 +12,7 @@ import evaluateMathInput, { MathInputAnswer } from '@/lib/evaluate-answer/evalua
 import evaluateAnswer from './lib/evaluate-answer-type';
 import VerticalLinearStepper from '@/ui/vertical-stepper';
 import HintsAccordion from './hints-component';
+import HintsTimelineComponent from './hints-component';
 
 export default function ClientWrapper({
   practice,
@@ -73,9 +74,9 @@ export default function ClientWrapper({
   const [isCorrect, setIsCorrect] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
 
-  const [open, setOpen] = useState(0);
+  const [hintOpen, setHintOpen] = useState(0);
   const handleOpen = (value: number) => {
-    setOpen(open === value ? 0 : value);
+    setHintOpen(hintOpen === value ? 0 : value);
   };
 
   const handleSubmit = () => {
@@ -159,15 +160,16 @@ export default function ClientWrapper({
           {alertContent}
         </Alert>
 
-          <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
-            <AccordionHeader className='text-white' onClick={() => handleOpen(1)}>
-              Merasa kesulitan? klik di sini untuk melihat petunjuk
-            </AccordionHeader>
-            <AccordionBody>
-              <HintsAccordion question={currentQuestion} />
-            </AccordionBody>
-          </Accordion>
-
+        <Accordion open={hintOpen === 1}>
+          <AccordionHeader onClick={() => handleOpen(1)}>
+            Klik di sini jika kamu merasa kesulitan
+          </AccordionHeader>
+          <AccordionBody>
+            <HintsTimelineComponent
+            question={currentQuestion}
+            />
+          </AccordionBody>
+        </Accordion>
       </>
     );
   } else {
