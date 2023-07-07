@@ -28,14 +28,14 @@ export default async function Page({
     task.assessmentItems = assessmentItems
     return task
   }
-  const task = getOrCreatePracticeTask(practice);
-  const questionList = task.reservedItems
-  let promiseList = new Array();
-  for (let index = 0; index < questionList.length; index++) {
-    const questionId = questionList[index];
-    promiseList.push(getAssessmentItem(questionId, 'expand=problem_type_parent'))
-  }
-  const assessmentItems = await Promise.all(promiseList)
+  // const task = getOrCreatePracticeTask(practice);
+  // const questionList = task.reservedItems
+  // let promiseList = new Array();
+  // for (let index = 0; index < questionList.length; index++) {
+  //   const questionId = questionList[index];
+  //   promiseList.push(getAssessmentItem(questionId, 'expand=problem_type_parent'))
+  // }
+  // const assessmentItems = await Promise.all(promiseList)
 
 
   return (
