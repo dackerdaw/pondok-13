@@ -14,13 +14,17 @@ export default function HintsComponent({
 }: {
   currentQuestion: AssessmentItem
 }) {
-  
+
   const [question, setQuestion] = useState(currentQuestion)
   const [revealRelatedContent, setRevealRelatedContent] = useState(false)
-  const relatedContents = question.expand.problem_type_parent.related_contents
+  const [relatedContents, setRelatedContents] = useState(question.expand.problem_type_parent.related_contents)
+  const [hints, setHints] = useState(currentQuestion.hints)
 
   useEffect(() => {
-    return setRevealRelatedContent(false)
+    setRevealRelatedContent(false)
+    setQuestion(currentQuestion)
+    setRelatedContents(currentQuestion.expand.problem_type_parent.related_contents)
+    setHints(currentQuestion.hints)
   }, [currentQuestion])
 
   if (revealRelatedContent) {
@@ -37,7 +41,7 @@ export default function HintsComponent({
         <div className="col-span-full lg:col-span-2">
           <div className="space-y-8">
             <h3 className="text-md font-medium text-gray-300">Masih kesulitan?</h3>
-            <RevealHints hints={question.hints} />
+            <RevealHints currentHints={hints} />
           </div>
         </div>
       </div>
@@ -55,12 +59,12 @@ export default function HintsComponent({
 };
 
 function RevealHints({
-  hints,
+  currentHints,
 }: {
-  hints: string[],
+  currentHints: string[],
 }) {
   const [revealedIndex, setRevealedIndex] = useState(0)
-  const revealedHints = hints.slice(0, revealedIndex)
+  const revealedHints = currentHints.slice(0, revealedIndex)
 
   if (revealedIndex > 0) {
     return (
@@ -76,7 +80,7 @@ function RevealHints({
             )
           })}
         </ul>
-        {revealedIndex < hints.length ?
+        {revealedIndex < currentHints.length ?
           <Button
             onClick={() => setRevealedIndex(revealedIndex + 1)}
             fullWidth
