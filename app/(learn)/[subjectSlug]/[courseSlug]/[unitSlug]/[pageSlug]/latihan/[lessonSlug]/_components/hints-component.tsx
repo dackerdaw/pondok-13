@@ -50,7 +50,7 @@ export default function HintsComponent({
     return (
       <>
         <div>
-          <span className="text-sm">Merasa kesulitan? <a className="underline text-blue-700" href="#" onClick={() => setRevealRelatedContent(true)}>Pelajari konten terkait atau gunakan petunjuk</a></span>
+          <span className="text-sm">Merasa kesulitan? <a className="underline text-blue-700" href="#a" onClick={() => setRevealRelatedContent(true)}>Pelajari konten terkait atau gunakan petunjuk</a></span>
         </div>
       </>
     );
