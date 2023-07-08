@@ -2,9 +2,8 @@ import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
 import { Alert, Button, Chip, List, ListItem, ListItemPrefix, ListItemSuffix, Spinner } from "@material-tailwind/react";
 import { useState } from "react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import useSWR, { Fetcher } from 'swr';
-import { Cog6ToothIcon, DocumentTextIcon, InboxArrowDownIcon, PencilIcon, PlayIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { Lesson } from "@/app/api/lessons/lesson";
+import useSWR from 'swr';
+import { DocumentTextIcon, PencilIcon, PlayIcon } from "@heroicons/react/24/outline";
 import { convertSlugToReadable } from "@/lib/helper/convertSlugToReadable";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,36 +15,25 @@ export default function HintsComponent({
 }) {
 
   const [revealRelatedContent, setRevealRelatedContent] = useState(false)
-  const hints = question.hints
   const relatedContents = question.expand.problem_type_parent.related_contents
-  const [revealedIndex, setRevealedIndex] = useState(0)
-  const revealedHints = hints.slice(0, revealedIndex)
 
   if (revealRelatedContent) {
     return (
       <div className="grid grid-cols-4 gap-6">
 
         <div className="col-span-full lg:col-span-2">
-
-
           <div className="space-y-8">
             <h3 className="text-md font-medium text-gray-300">Konten terkait</h3>
             <RelatedContents lessonIds={relatedContents} />
           </div>
-
         </div>
 
         <div className="col-span-full lg:col-span-2">
-
-
           <div className="space-y-8">
             <h3 className="text-md font-medium text-gray-300">Masih kesulitan?</h3>
-
-
+            <RevealHints hints={question.hints} />
           </div>
-
         </div>
-
       </div>
     )
   } else {
@@ -59,6 +47,48 @@ export default function HintsComponent({
   }
 
 };
+
+function RevealHints({
+  hints,
+}: {
+  hints: string[],
+}) {
+  const [revealedIndex, setRevealedIndex] = useState(0)
+  const revealedHints = hints.slice(0, revealedIndex)
+
+  if (revealedIndex > 0) {
+    return (
+      <>
+        <ul>
+          {revealedHints.map((hint, index) => {
+            return (
+              <li key={index}>{hint}</li>
+            )
+          })}
+        </ul>
+        {revealedIndex < hints.length ?
+          <Button
+            onClick={() => setRevealedIndex(revealedIndex + 1)}
+            fullWidth
+          >
+            Petunjuk berikutnya
+          </Button>
+          :
+          null
+        }
+      </>
+    )
+  } else {
+    return (
+      <Button
+        onClick={() => setRevealedIndex(1)}
+        fullWidth
+      >
+        Dapatkan petunjuk
+      </Button>
+    )
+  }
+}
 
 
 function arrayFetcher(urlArr: string[]) {
