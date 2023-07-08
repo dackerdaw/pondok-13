@@ -6,6 +6,8 @@ import useSWR, { Fetcher } from 'swr';
 import { Cog6ToothIcon, DocumentTextIcon, InboxArrowDownIcon, PencilIcon, PlayIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Lesson } from "@/app/api/lessons/lesson";
 import { convertSlugToReadable } from "@/lib/helper/convertSlugToReadable";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function HintsComponent({
   question,
@@ -18,8 +20,6 @@ export default function HintsComponent({
   const relatedContents = question.expand.problem_type_parent.related_contents
   const [revealedIndex, setRevealedIndex] = useState(0)
   const revealedHints = hints.slice(0, revealedIndex)
-
-  console.log(question.expand.problem_type_parent.related_contents)
 
   if (revealRelatedContent) {
     return (
@@ -40,7 +40,7 @@ export default function HintsComponent({
 
           <div className="space-y-8">
             <h3 className="text-md font-medium text-gray-300">Masih kesulitan?</h3>
-            
+
 
           </div>
 
@@ -68,15 +68,12 @@ function arrayFetcher(urlArr: string[]) {
 
 function useLessons(lessonIds: string[]) {
 
-  console.log(lessonIds)
   // too imperative, make a prettier one someday
   let urlList = new Array<string>();
   for (let index = 0; index < lessonIds.length; index++) {
     const lessonId = lessonIds[index];
     urlList.push(`/api/lessons/${lessonId}`)
   }
-  
-  console.log(urlList)
 
   const { data, error, isLoading } = useSWR(urlList, arrayFetcher)
 
@@ -92,8 +89,8 @@ function RelatedContents({
 }: {
   lessonIds: string[]
 }) {
-
-
+  const pathname = usePathname();
+  const segments = pathname.split('/').slice(1)
   const { lessons, isLoading, isError } = useLessons(lessonIds)
 
   if (isLoading) return <Spinner />
@@ -111,7 +108,7 @@ function RelatedContents({
   return (
     <List className="p-0 my-2">
       {lessons?.map((lesson, index) => {
-        
+
         let lessonIcon;
         switch (lesson.lesson_type) {
           case "video":
@@ -125,14 +122,19 @@ function RelatedContents({
             break;
         }
         return (
-          <ListItem key={index}
-            className="rounded-none text-sm py-1.5 px-3 font-normal text-blue-gray-700 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white"
-          >
-            <ListItemPrefix>
-              {lessonIcon}
-            </ListItemPrefix>
-            {convertSlugToReadable(lesson.lesson_slug)}
-          </ListItem>
+          <Link
+            href={`/${segments[0]}/${segments[1]}/${segments[2]}/${segments[3]}/${lesson.lesson_type}/${lesson.lesson_slug}`}
+            key={index}>
+            <ListItem
+              className="rounded-none text-sm py-1.5 px-3 font-normal text-white hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white"
+            >
+              <ListItemPrefix>
+                {lessonIcon}
+              </ListItemPrefix>
+              {convertSlugToReadable(lesson.lesson_slug)}
+            </ListItem>
+          </Link>
+
         )
       })}
     </List>

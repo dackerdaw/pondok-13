@@ -10,6 +10,12 @@ export interface MathInputAnswer {
 export default function evaluateMathInput(answer: MathInputAnswer) {   
     const ce = new ComputeEngine();
     // ce.tolerance = answer.tolerance;
+    if (!answer.mathJSONInput) {
+        return {
+            code: 400,
+            message: "Jawaban kamu belum valid. Pastikan jawabanmu sudah lengkap."
+        };
+    }
     const boxedInput = ce.box(answer.mathJSONInput, { canonical: false })
     if (!boxedInput.isValid) {
         return {
