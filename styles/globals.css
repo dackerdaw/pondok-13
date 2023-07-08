@@ -13,3 +13,5 @@
 }
 
 .article-table tr:nth-child(even){background-color: #3a3737;}
+
+.katex { font-size: 1.5em !important; }

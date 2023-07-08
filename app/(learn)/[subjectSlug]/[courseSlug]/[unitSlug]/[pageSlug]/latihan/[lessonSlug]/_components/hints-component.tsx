@@ -7,6 +7,7 @@ import { DocumentTextIcon, PencilIcon, PlayIcon } from "@heroicons/react/24/outl
 import { convertSlugToReadable } from "@/lib/helper/convertSlugToReadable";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Latex from "react-latex";
 
 export default function HintsComponent({
   question,
@@ -59,10 +60,14 @@ function RevealHints({
   if (revealedIndex > 0) {
     return (
       <>
-        <ul>
+        <ul className=" text-lg">
           {revealedHints.map((hint, index) => {
             return (
-              <li key={index}>{hint}</li>
+              <li key={index} className=" my-4">
+                <Latex maxSize={20}>
+                  {hint}
+                </Latex>
+              </li>
             )
           })}
         </ul>
