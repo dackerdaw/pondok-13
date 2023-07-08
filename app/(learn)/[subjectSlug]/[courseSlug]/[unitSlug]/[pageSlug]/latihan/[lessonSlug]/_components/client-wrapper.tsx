@@ -12,7 +12,7 @@ import evaluateMathInput, { MathInputAnswer } from '@/lib/evaluate-answer/evalua
 import evaluateAnswer from './lib/evaluate-answer-type';
 import VerticalLinearStepper from '@/ui/vertical-stepper';
 import HintsAccordion from './hints-component';
-import HintsTimelineComponent from './hints-component';
+import HintsComponent from './hints-component';
 
 export default function ClientWrapper({
   practice,
@@ -160,8 +160,8 @@ export default function ClientWrapper({
           {alertContent}
         </Alert>
 
-        <HintsTimelineComponent
-          question={currentQuestion}
+        <HintsComponent
+          currentQuestion={currentQuestion}
         />
       </>
     );

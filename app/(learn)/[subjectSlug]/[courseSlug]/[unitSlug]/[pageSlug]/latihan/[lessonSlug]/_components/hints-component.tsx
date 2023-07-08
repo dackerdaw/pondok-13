@@ -1,6 +1,6 @@
 import { AssessmentItem } from "@/app/api/assessment-items/assessment-items";
-import { Alert, Button, Chip, List, ListItem, ListItemPrefix, ListItemSuffix, Spinner } from "@material-tailwind/react";
-import { useState } from "react";
+import { Alert, Button, List, ListItem, ListItemPrefix, Spinner } from "@material-tailwind/react";
+import { useEffect, useState } from "react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import useSWR from 'swr';
 import { DocumentTextIcon, PencilIcon, PlayIcon } from "@heroicons/react/24/outline";
@@ -10,13 +10,18 @@ import { usePathname } from "next/navigation";
 import Latex from "react-latex";
 
 export default function HintsComponent({
-  question,
+  currentQuestion,
 }: {
-  question: AssessmentItem
+  currentQuestion: AssessmentItem
 }) {
-
+  
+  const [question, setQuestion] = useState(currentQuestion)
   const [revealRelatedContent, setRevealRelatedContent] = useState(false)
   const relatedContents = question.expand.problem_type_parent.related_contents
+
+  useEffect(() => {
+    return setRevealRelatedContent(false)
+  }, [currentQuestion])
 
   if (revealRelatedContent) {
     return (
