@@ -1,18 +1,16 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Accordion, AccordionBody, AccordionHeader, Alert, Button, Step, Stepper } from "@material-tailwind/react";
+import { Alert, Button, Step, Stepper } from "@material-tailwind/react";
 import Latex from "react-latex";
 import { colors } from '@material-tailwind/react/types/generic';
 import { db } from '@/lib/dexie/database.config';
 import { Practice } from '@/app/api/practices/practice';
-import { Task } from '@/app/api/practices/getOrCreatePracticeTask';
-import AnswerTypeComponent, { EvaluateResponse } from './answer-type-component';
-import evaluateMathInput, { MathInputAnswer } from '@/lib/evaluate-answer/evaluate-latex';
+import { Task, TaskProgress } from '@/app/api/practices/getOrCreatePracticeTask';
+import AnswerTypeComponent from './answer-type-component';
 import evaluateAnswer from './lib/evaluate-answer-type';
-import VerticalLinearStepper from '@/ui/vertical-stepper';
-import HintsAccordion from './hints-component';
 import HintsComponent from './hints-component';
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 export default function ClientWrapper({
   practice,
@@ -69,6 +67,8 @@ export default function ClientWrapper({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertColor, setAlertColor] = useState<colors>();
   const [alertContent, setAlertContent] = useState("");
+  const [isFail, setIsFail] = useState(false);
+  const [progress, setProgress] = useState<TaskProgress[]>([])
 
   const [activeStep, setActiveStep] = useState(task && task.reservedItemsCompleted.length > 0 ? task.reservedItemsCompleted.length - 1 : 0);
   const [isCorrect, setIsCorrect] = useState(false)
@@ -79,6 +79,7 @@ export default function ClientWrapper({
     setHintOpen(hintOpen === value ? 0 : value);
   };
 
+  // refactor to simpler db call, very ugly
   const handleSubmit = () => {
     const evaluateRes = evaluateAnswer({
       question: currentQuestion!,
@@ -89,8 +90,21 @@ export default function ClientWrapper({
       setAlertColor("green");
       setAlertContent("Jawaban kamu benar!");
       setAlertOpen(true);
+
+      if (!isFail) {
+        const progressItem = {
+          assessmentItemId: currentQuestion?.id,
+          fail: false,
+        } as TaskProgress
+
+        task?.progress.push(progressItem);
+      }
+
       task?.reservedItemsCompleted.push(currentQuestion?.id!);
-      db.tasks.update(practice.slug, { reservedItemsCompleted: task?.reservedItemsCompleted }).then((updated) => {
+      db.tasks.update(practice.slug, {
+        reservedItemsCompleted: task?.reservedItemsCompleted,
+        progress: task?.progress,
+       }).then((updated) => {
         if (updated) {
           setIsCorrect(true)
           if (task?.reservedItemsCompleted.length === task?.reservedItems.length) {
@@ -100,10 +114,31 @@ export default function ClientWrapper({
           console.log("failed update");
         }
       });
+    } else if (evaluateRes.code == 461) {
+      setAlertColor("orange");
+      setAlertContent(evaluateRes.message);
+      setAlertOpen(true);
     } else {
       setAlertColor("orange");
       setAlertContent(evaluateRes.message);
       setAlertOpen(true);
+
+      if (!isFail) { // will only update if first time fail
+        const progressItem = {
+          assessmentItemId: currentQuestion?.id,
+          fail: true,
+        } as TaskProgress
+
+        task?.progress.push(progressItem);
+        db.tasks.update(practice.slug, { progress: task?.progress }).then((updated) => {
+          if (updated) {
+            setIsFail(true);
+          } else {
+            console.log("failed update fail status");
+          }
+        });
+      }
+
     }
   }
 
@@ -115,6 +150,7 @@ export default function ClientWrapper({
       setActiveStep((curr) => curr + 1)
       setIsCorrect(false)
       setAlertOpen(false)
+      setIsFail(false)
       return
     }
   };
@@ -147,11 +183,23 @@ export default function ClientWrapper({
             className='mt-16'
           >
             {task.assessmentItems.map((item, index) => {
-              return (
-                <Step key={index}
-                  className='h-4 w-4'
-                />
-              )
+              const progressItem = task.progress[index]
+              console.log(progressItem)
+              if (progressItem) {
+                return (
+                  <Step key={index}
+                    className='h-4 w-4'
+                  >
+                    {progressItem.fail ?
+                      <XMarkIcon className='w-4 h-4' />
+                      :
+                      <CheckIcon className='w-4 h-4' />
+                    }
+                  </Step>
+                )
+              } else {
+                return <Step key={index} className='h-4 w-4' />
+              }
             })}
           </Stepper>
         </div>

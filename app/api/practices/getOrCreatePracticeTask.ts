@@ -2,20 +2,26 @@ import { Practice, ProblemType } from "@/app/api/practices/practice";
 import { AssessmentItem } from "../assessment-items/assessment-items";
 
 export interface Task {
-    slug: string;
-    done: boolean;
-    exerciseLength: number;
-    reservedItems: string[];
-    reservedItemsCompleted: string[];
-    taskType: string;
-    timeEstimateLowerBound: number;
-    timeEstimateUpperBound: number;
-    masteryLevel: string
-    assessmentItems: AssessmentItem[];
+  slug: string;
+  done: boolean;
+  exerciseLength: number;
+  reservedItems: string[];
+  reservedItemsCompleted: string[];
+  progress: TaskProgress[];
+  taskType: string;
+  timeEstimateLowerBound: number;
+  timeEstimateUpperBound: number;
+  masteryLevel: string
+  assessmentItems: AssessmentItem[];
+}
+
+export interface TaskProgress {
+  assessmentItemId: string,
+  fail?: boolean,
 }
 
 export function getOrCreatePracticeTask(practice: Practice) {
-    return practiceToTask(practice);
+  return practiceToTask(practice);
 }
 
 export function practiceToTask(practice: Practice) {
@@ -29,6 +35,7 @@ export function practiceToTask(practice: Practice) {
     exerciseLength: practice.number_of_questions,
     reservedItems: selectedQuestions,
     reservedItemsCompleted: [],
+    progress: [],
     taskType: "practice",
     timeEstimateLowerBound: practice.time_estimate_lower_bound,
     timeEstimateUpperBound: practice.time_estimate_upper_bound,
