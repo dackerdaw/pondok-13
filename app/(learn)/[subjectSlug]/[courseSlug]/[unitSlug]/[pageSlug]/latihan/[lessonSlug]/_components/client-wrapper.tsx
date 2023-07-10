@@ -68,16 +68,10 @@ export default function ClientWrapper({
   const [alertColor, setAlertColor] = useState<colors>();
   const [alertContent, setAlertContent] = useState("");
   const [isFail, setIsFail] = useState(false);
-  const [progress, setProgress] = useState<TaskProgress[]>([])
 
   const [activeStep, setActiveStep] = useState(task && task.reservedItemsCompleted.length > 0 ? task.reservedItemsCompleted.length - 1 : 0);
   const [isCorrect, setIsCorrect] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
-
-  const [hintOpen, setHintOpen] = useState(0);
-  const handleOpen = (value: number) => {
-    setHintOpen(hintOpen === value ? 0 : value);
-  };
 
   // refactor to simpler db call, very ugly
   const handleSubmit = () => {
