@@ -1,4 +1,5 @@
 import { demos } from '@/lib/demos';
+import StyledFirebaseAuthClientWrapper from '@/ui/styled-firebase-auth';
 import Link from 'next/link';
 
 export default function Page() {
@@ -52,6 +53,12 @@ export default function Page() {
                   );
                 })}
               </div>
+            </div>
+
+            <div>
+              
+              <StyledFirebaseAuthClientWrapper />
+
             </div>
 
           </div>
