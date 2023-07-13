@@ -5,7 +5,7 @@ import { LinkIcon } from "@heroicons/react/24/outline";
  
 export default function TextareaComment() {
   return (
-    <div className="relative max-w-[32rem] mx-auto">
+    <div className="relative w-full mx-auto">
       <Textarea variant="static" placeholder="Komentar mu" rows={8} />
       <div className="w-full flex justify-between py-1.5">
         {/* <IconButton variant="text" color="blue-gray" size="sm">

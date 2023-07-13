@@ -4,6 +4,7 @@ import Paginator from '@/ui/paginator';
 import { getCourses } from '@/app/api/courses/delivery';
 import { getUnits } from '@/app/api/units/delivery';
 import TextareaComment from '@/ui/textarea-comment';
+import CommentSection from './_components/comment-section';
 
 export const metadata = {
   title: 'Bidang Ilmu',
@@ -42,25 +43,8 @@ export default async function Layout({
 
         {children}
 
-
-
-
       </div>
-
-      <div className=" my-8">
-        <div className="w-full lg:max-w-3xl mx-auto">
-          <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
-            <div className="rounded-lg bg-black p-3.5 lg:p-6">
-
-              <div className="space-y-8">
-                <h3 className="text-xl font-medium text-gray-300">Kolom komentar</h3>
-                <TextareaComment />
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
+      <CommentSection />
     </>
   );
 }
