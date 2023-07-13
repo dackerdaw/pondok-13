@@ -8,6 +8,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { AuthContextProvider } from '@/lib/firebase/auth-context';
 
 export const metadata: Metadata = {
   title: {
@@ -26,11 +27,10 @@ export default function RootLayout({
   return (
     <html lang="id" className="[color-scheme:dark]">
       <body className="bg-gray-1100 overflow-y-scroll bg-[url('/grid.svg')] pb-36">
-        <Navbar />
-        
-        {children}
-
-        
+        <AuthContextProvider>
+          <Navbar />
+          {children}
+        </AuthContextProvider>
       </body>
     </html>
   )

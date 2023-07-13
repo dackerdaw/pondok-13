@@ -4,6 +4,8 @@ import useScroll from "@/lib/hooks/use-scroll";
 import Image from "next/image";
 import Link from "next/link";
 import { NextLogo } from '@/ui/next-logo';
+import { AuthContext } from "@/lib/firebase/auth-context";
+import LoginComponent from "./login";
 
 export function Navbar() {
   const scrolled = useScroll(50);
@@ -18,7 +20,6 @@ export function Navbar() {
       <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
         <Link
           href="/"
-          // className="group flex w-full items-center gap-x-2.5"
           className="group flex items-center font-display text-2xl gap-x-2.5"
         >
           <div className="h-7 w-7 rounded-full border border-white/30 group-hover:border-white/50">
@@ -29,6 +30,7 @@ export function Navbar() {
             Pondok Pelajar
           </h3>
         </Link>
+        <LoginComponent/>
       </div>
     </div>
   )
