@@ -1,6 +1,7 @@
 'use client'
 
 import TextareaComment from "@/ui/textarea-comment"
+import UserComments from "@/ui/user-comments";
 import { usePathname } from 'next/navigation';
 
 export default function CommentSection() {
@@ -23,6 +24,8 @@ export default function CommentSection() {
               <div className="space-y-8 w-full lg:max-w-xl mx-auto">
                 <h3 className="text-xl font-medium text-gray-300">Kolom komentar</h3>
                 <TextareaComment />
+                
+                <UserComments />
               </div>
 
             </div>

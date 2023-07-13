@@ -8,6 +8,7 @@ export default withMT({
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './ui/**/*.{js,ts,jsx,tsx,mdx}',
+    "./node_modules/flowbite/**/*.js",
   ],
   future: {
     hoverOnlyWhenSupported: true,
@@ -88,5 +89,9 @@ export default withMT({
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('flowbite/plugin'),
+  ],
 } satisfies Config);

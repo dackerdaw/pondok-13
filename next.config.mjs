@@ -9,7 +9,17 @@ const nextConfig = {
     pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
     experimental: {
       serverActions: true,
-    }
+    },
+    images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'flowbite.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
  
 const withMDX = createMDX({
