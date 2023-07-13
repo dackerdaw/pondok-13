@@ -178,7 +178,6 @@ export default function ClientWrapper({
           >
             {task.assessmentItems.map((item, index) => {
               const progressItem = task.progress[index]
-              console.log(progressItem)
               if (progressItem) {
                 return (
                   <Step key={index}

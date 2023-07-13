@@ -4,6 +4,7 @@ import useScroll from "@/lib/hooks/use-scroll";
 import Link from "next/link";
 import { NextLogo } from '@/ui/next-logo';
 import LoginComponent from "./login";
+import CurrentUser from "./current-user";
 
 export function Navbar() {
   const scrolled = useScroll(50);
@@ -28,7 +29,8 @@ export function Navbar() {
             Pondok Pelajar
           </h3>
         </Link>
-        <LoginComponent/>
+        {/* <LoginComponent/> */}
+        <CurrentUser />
       </div>
     </div>
   )
