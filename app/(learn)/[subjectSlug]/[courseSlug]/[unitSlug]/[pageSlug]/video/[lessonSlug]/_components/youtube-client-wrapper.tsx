@@ -5,7 +5,8 @@ import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 import styles from './styles.module.css'
 import { useState, useRef, useEffect } from 'react';
 import { Transcript, Video } from '@/app/api/videos/video';
-import { Button } from '@material-tailwind/react';
+import { Accordion, AccordionBody, AccordionHeader, Button } from '@material-tailwind/react';
+import TextareaComment from '@/ui/textarea-comment';
 
 export default function YoutubeClientWrapper({
   video,
@@ -19,6 +20,11 @@ export default function YoutubeClientWrapper({
   const playerRef = useRef<YouTubePlayer>(); // Reference to the YouTube player instance
   const timerRef = useRef<any>(); // Reference to the timer interval
   const transcriptContainerRef = useRef<HTMLDivElement>(null);
+  const [openDescription, setOpenDescription] = useState(false);
+
+  const handleOpenDescription = () => {
+    setOpenDescription(!openDescription);
+  };
 
   const seekToTime = (time: number) => {
     if (playerRef.current) {
@@ -111,8 +117,28 @@ export default function YoutubeClientWrapper({
 
                   </div>
 
-                  <h3 className="text-md font-medium text-gray-400/80">Deskripsi</h3>
-                  <p>{video.description}</p>
+                  <Accordion open={openDescription}>
+                    <AccordionHeader className='text-white hover:text-gray-400' onClick={() => handleOpenDescription()}>
+                      Deskripsi
+                    </AccordionHeader>
+                    <AccordionBody>
+                    <p className='text-white'>
+                      {video.description}
+                    </p>
+                    </AccordionBody>
+                  </Accordion>
+                </div>
+
+              </div>
+            </div>
+            
+            <div className=" my-8">
+              <h2 className="text-xl font-medium text-gray-300">Kolom Komentar</h2>
+
+              <div className="space-y-10 text-white">
+
+                <div className="space-y-4">
+                  <TextareaComment />
                 </div>
 
               </div>
