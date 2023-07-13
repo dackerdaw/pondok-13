@@ -8,6 +8,7 @@ export default function UserComments() {
       <div className="max-w-2xl mx-auto px-4">
         
         <IndividualComment />
+        <IndividualComment />
         
       </div>
     </section>

@@ -5,7 +5,8 @@ export default function IndividualComment() {
 
   return (
     <>
-      <article className="p-6 mb-6 text-base rounded-lg ">
+      {/* <article className="p-6 mb-6 text-base rounded-lg "> */}
+      <article className="p-6 mb-6 text-base border-t border-gray-700">
         <footer className="flex justify-between items-center mb-2">
           <div className="flex items-center">
             <p className="inline-flex items-center mr-3 text-sm  text-white"><Image
