@@ -132,17 +132,6 @@ export default function YoutubeClientWrapper({
               </div>
             </div>
             
-            <div className=" my-8">
-              <h2 className="text-xl font-medium text-gray-300">Kolom Komentar</h2>
-
-              <div className="space-y-10 text-white">
-
-                <div className="space-y-4">
-                  <TextareaComment />
-                </div>
-
-              </div>
-            </div>
 
           </div>
         </div>
