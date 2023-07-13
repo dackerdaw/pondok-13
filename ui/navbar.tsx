@@ -1,10 +1,8 @@
 'use client';
 
 import useScroll from "@/lib/hooks/use-scroll";
-import Image from "next/image";
 import Link from "next/link";
 import { NextLogo } from '@/ui/next-logo';
-import { AuthContext } from "@/lib/firebase/auth-context";
 import LoginComponent from "./login";
 
 export function Navbar() {

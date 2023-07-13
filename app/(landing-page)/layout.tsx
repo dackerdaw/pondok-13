@@ -1,6 +1,4 @@
 import '@/styles/globals.css';
-import { AddressBar } from '@/ui/address-bar';
-import Byline from '@/ui/byline';
 import { Navbar } from '@/ui/navbar';
 import { Metadata } from 'next';
 
@@ -8,7 +6,6 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { AuthContextProvider } from '@/lib/firebase/auth-context';
 
 export const metadata: Metadata = {
   title: {
@@ -27,10 +24,8 @@ export default function RootLayout({
   return (
     <html lang="id" className="[color-scheme:dark]">
       <body className="bg-gray-1100 overflow-y-scroll bg-[url('/grid.svg')] pb-36">
-        <AuthContextProvider>
           <Navbar />
           {children}
-        </AuthContextProvider>
       </body>
     </html>
   )

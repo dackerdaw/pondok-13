@@ -1,17 +1,57 @@
 'use client';
 
-import { AuthContext } from "@/lib/firebase/auth-context";
+import { app } from "@/lib/firebase/firebase-config";
 import { Button } from "@material-tailwind/react";
+import { GoogleAuthProvider, User, getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import Image from "next/image";
-import { useContext, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function LoginComponent() {
-  
-  const user = useContext(AuthContext);
-  
+
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth(app);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  function handleLogin() {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  }
+
   if (user) {
     return (
-      <p>Halo {user.displayName}!</p> 
+      <p>Halo {user.displayName}!</p>
     )
   } else {
     return (
@@ -20,6 +60,7 @@ export default function LoginComponent() {
         variant="outlined"
         color="blue-gray"
         className="flex items-center gap-3"
+        onClick={handleLogin}
       >
         <Image height={24} width={24} src="/icons/google.svg" alt="metamask" className="h-6 w-6" />
         Login dengan Google
