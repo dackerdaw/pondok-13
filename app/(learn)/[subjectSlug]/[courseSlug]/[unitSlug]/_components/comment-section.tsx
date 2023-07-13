@@ -25,7 +25,10 @@ export default function CommentSection() {
                 <h3 className="text-xl font-medium text-gray-300">Kolom komentar</h3>
                 <TextareaComment />
                 
-                <UserComments />
+                <UserComments
+                  lessonType={segments[4]}
+                  lessonSlug={segments[5]}
+                />
               </div>
 
             </div>

@@ -1,7 +1,11 @@
 import Image from "next/image";
 import IndividualReply from "./individual-reply";
 
-export default function IndividualComment() {
+export default function IndividualComment({
+  comment,
+}: {
+  comment: any,
+}) {
 
   return (
     <>
